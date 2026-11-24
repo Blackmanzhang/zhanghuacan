@@ -1,0 +1,270 @@
+.kg-page {
+  color: var(--ink);
+}
+.kg-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: start;
+}
+.kg-layout > *,
+.kg-layout > div > * {
+  min-width: 0;
+}
+.kg-chart,
+.kg-index,
+.kg-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.kg-page h2,
+.kg-page h3 {
+  font-family: var(--serif);
+  line-height: 1.4;
+}
+.kg-chart {
+  background: radial-gradient(ellipse at 50% 50%, #204956, #0d283a 80%);
+  border-color: #244756;
+  color: #f1faf7;
+}
+.kg-chart header,
+.kg-chart-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 1rem 1.25rem;
+}
+.kg-chart header h2,
+.kg-index h2 {
+  font-size: 1.2rem;
+}
+.kg-chart header small,
+.kg-chart-foot {
+  color: #b8d2cf;
+  font-size: 0.8rem;
+}
+.kg-chart header small,
+.kg-chart-foot span:last-child {
+  margin-left: auto;
+}
+.kg-chart-foot {
+  flex-wrap: wrap;
+  border-top: 1px solid #34535c;
+}
+.kg-key,
+.kg-index nav i {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  flex: none;
+  border-radius: 50%;
+  background: #efcc91;
+}
+.kg-graph {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-top: 1px solid #34535c;
+}
+.kg-graph text {
+  text-anchor: middle;
+  pointer-events: none;
+  font-family: var(--sans);
+}
+.kg-orbits {
+  fill: none;
+  stroke: #64838d;
+  stroke-width: 0.7;
+  stroke-dasharray: 2 7;
+}
+.kg-rays path {
+  stroke: #77a8ac;
+  stroke-width: 1.5;
+}
+.kg-rays rect {
+  fill: #123541;
+}
+.kg-rays text {
+  fill: #c1d8d0;
+  font-size: 11px;
+}
+.kg-satellite rect {
+  fill: #183e4c;
+  stroke: var(--kg-tone);
+  stroke-width: 1.3;
+}
+.kg-satellite text {
+  fill: #fcfaf3;
+  font-size: 15px;
+  font-weight: 600;
+}
+.kg-satellite:hover rect,
+.kg-satellite:focus-visible rect {
+  fill: #345968;
+  stroke-width: 3;
+}
+.kg-core ellipse {
+  fill: #193b49;
+  stroke: var(--kg-tone);
+  stroke-width: 1.4;
+}
+.kg-core ellipse:first-child {
+  fill: none;
+  stroke-dasharray: 2 5;
+  opacity: 0.65;
+}
+.kg-core text {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: bold;
+  fill: var(--kg-tone);
+}
+.kg-index {
+  margin-top: 1rem;
+  padding: 1.2rem;
+}
+.kg-fields {
+  display: flex;
+  gap: 0.55rem;
+  margin: 0.85rem 0;
+}
+.kg-fields input,
+.kg-fields select {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #bdcdc9;
+  border-radius: 7px;
+  background: #fff;
+  color: #274d4d;
+}
+.kg-fields input {
+  flex: 1;
+  min-width: 0;
+}
+.kg-index nav {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.kg-index nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #cfdbd6;
+  border-radius: 20px;
+  font-size: 0.86rem;
+  color: #284e51;
+}
+.kg-index nav i {
+  background: var(--kg-tone);
+  box-shadow: inset 0 0 0 1px #0002;
+}
+.kg-index nav a[aria-current],
+.kg-index nav a:hover {
+  background: #16464a;
+  border-color: #16464a;
+  color: white;
+}
+.kg-card {
+  padding: 1.25rem 1.5rem;
+}
+.kg-card header small {
+  font-weight: 600;
+  color: #386164;
+}
+.kg-card header h2 {
+  font-size: 2rem;
+  margin: 0.15rem 0 0.65rem;
+}
+.kg-card p,
+.kg-index nav p {
+  line-height: 1.8;
+  font-size: 0.92rem;
+}
+.kg-source {
+  color: #356460;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.kg-evidence,
+.kg-letters {
+  margin-top: 1.2rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--line);
+}
+.kg-page h3 {
+  font-size: 1.13rem;
+}
+.kg-evidence ul,
+.kg-letters ul {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+.kg-evidence li,
+.kg-letters li {
+  padding: 0.6rem 0;
+}
+.kg-evidence li + li,
+.kg-letters li + li {
+  border-top: 1px dashed #cdd6d2;
+}
+.kg-evidence li div {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+}
+.kg-evidence li div span {
+  color: #4c6868;
+  font-size: 0.8rem;
+}
+.kg-evidence li div a,
+.kg-letters li a,
+.kg-map-link {
+  color: #1e5e59;
+  font-weight: 650;
+}
+.kg-evidence li p {
+  margin: 0.25rem 0;
+}
+.kg-letters li small {
+  display: block;
+  color: #536b69;
+}
+.kg-map-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+}
+@media (max-width: 790px) {
+  .kg-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .kg-card,
+  .kg-index {
+    padding: 1rem;
+  }
+  .kg-graph {
+    max-height: 350px;
+  }
+  .kg-fields {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 420px) {
+  .kg-chart header,
+  .kg-chart-foot {
+    padding: 0.7rem 0.8rem;
+  }
+  .kg-fields select {
+    max-width: 100px;
+  }
+  .kg-chart-foot {
+    font-size: 0.73rem;
+  }
+  .kg-index nav a {
+    font-size: 0.8rem;
+  }
+}

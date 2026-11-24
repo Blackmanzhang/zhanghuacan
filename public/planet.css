@@ -1,0 +1,649 @@
+/* The home observatory and its museum entrances */
+.planet-home {
+  background: #071b24;
+  color: #edf4e9;
+}
+.planet-home .site-header {
+  background: #0a2029;
+  border-color: #b1cbb425;
+}
+.planet-home .brand small,
+.planet-home .nav-link {
+  color: #a8bfbe;
+}
+.planet-home .brand b,
+.planet-home .nav-link.active,
+.planet-home .nav-link:hover {
+  color: #f0f5e9;
+}
+.planet-home .nav-link.active:after {
+  background: #84d7c2;
+}
+.planet-home .account-link {
+  background: #16343c;
+  border-color: #32505a;
+  color: #dcebe6;
+}
+.planet-home .head-actions .solid {
+  background: #a2dbc7;
+  color: #0b3535;
+  border-color: #a2dbc7;
+}
+.planet-home #main {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+.planet-shell {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 67% 24%, #133540 0, transparent 47%), #081d27;
+}
+.sky-grid,
+.globe-post,
+.culture-rooms {
+  width: min(1280px, 90%);
+  margin-inline: auto;
+}
+.sky-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.86fr 1.35fr;
+  align-items: center;
+  min-height: 455px;
+}
+.sky-copy {
+  z-index: 1;
+  padding: 43px 0 40px 2px;
+}
+.sky-kicker {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #abd6c8;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+.sky-kicker i {
+  width: 35px;
+  height: 1px;
+  background: #d2ad76;
+}
+.sky h1 {
+  font-family: var(--serif);
+  font-size: clamp(54px, 5.5vw, 82px);
+  line-height: 1.13;
+  letter-spacing: 0.055em;
+  font-weight: 550;
+  color: #f7f4e9;
+  margin: 19px 0;
+}
+.sky h1 em {
+  font-style: normal;
+  color: #a2d8c8;
+}
+.sky-copy > p {
+  color: #bbcdcc;
+  font-size: 15px;
+  line-height: 1.85;
+  letter-spacing: 0.055em;
+}
+.sky-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+.sky-actions > a,
+.sky-actions > button {
+  padding: 9px 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #587575;
+  background: #0a252d;
+  color: #d6e6dd;
+  font-size: 14px;
+  font-weight: 650;
+}
+.sky-actions > button {
+  background: #b1e3cd;
+  color: #14372e;
+  border-color: #b1e3cd;
+}
+.sky-actions > *:hover {
+  filter: brightness(1.12);
+}
+.sky-stats {
+  margin: 27px 0 0;
+  display: flex;
+  gap: 22px;
+}
+.sky-stats > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.sky-stats dd {
+  font-family: Georgia, serif;
+  font-variant-numeric: lining-nums;
+  font-size: 23px;
+  margin: 0;
+  color: #f0d1a2;
+}
+.sky-stats dt {
+  font-size: 12px;
+  color: #abc2c0;
+}
+.globe-stage {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+  display: grid;
+  align-items: center;
+}
+.globe-scene {
+  position: relative;
+  height: clamp(405px, 37vw, 545px);
+  touch-action: none;
+  cursor: grab;
+  outline-offset: -3px;
+}
+.globe-scene:focus-visible {
+  outline: 2px solid #caa064;
+}
+.globe-scene.dragging {
+  cursor: grabbing;
+}
+.globe-scene canvas,
+.globe-pins {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.globe-pins {
+  pointer-events: none;
+}
+.globe-pin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  border: 1px solid #73938d;
+  background: #0c2a32ee;
+  color: #e3f1e6;
+  font-size: 10px;
+  height: 23px;
+  padding: 2px 6px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.globe-pin[hidden] {
+  display: none;
+}
+.globe-pin.current,
+.globe-pin:hover {
+  border-color: #e0bc80;
+  color: #ffe2a4;
+  background: #293837;
+}
+.globe-tools {
+  position: absolute;
+  bottom: 5px;
+  right: 3%;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 11px;
+  color: #9eb8b8;
+}
+.globe-tools button,
+.post-pages button {
+  border: 1px solid #44626a;
+  background: #0a2630;
+  color: #c5d9d1;
+  border-radius: 5px;
+  padding: 4px 9px;
+  font-size: 11px;
+}
+.globe-post {
+  border-top: 1px solid #45646b88;
+  border-bottom: 1px solid #45646b88;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 65px;
+  padding: 9px 1px;
+  color: #dee9df;
+}
+.post-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a7d7c5;
+  flex-shrink: 0;
+}
+.post-location select {
+  max-width: 145px;
+  color: inherit;
+  background: #132f37;
+  border: 1px solid #3c575c;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 4px;
+}
+.post-letter {
+  flex: 1;
+  min-width: 0;
+}
+.post-letter a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.post-letter span {
+  font-family: var(--serif);
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-letter small {
+  color: #a8bdbc;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.post-pages {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  font-size: 13px;
+}
+.post-pages > a {
+  color: #f4d59e;
+  font-weight: 600;
+}
+.post-pages > a span {
+  margin-left: 4px;
+}
+.culture-rooms {
+  padding: 34px 0 46px;
+}
+.rooms-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 19px;
+}
+.rooms-heading h2 {
+  color: #e6efe4;
+  font-size: clamp(24px, 2.5vw, 33px);
+  font-family: var(--serif);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.rooms-heading > a {
+  font-size: 13px;
+  color: #b7ccc7;
+}
+.rooms-heading > a span {
+  margin-left: 5px;
+}
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.room-card {
+  display: block;
+  border: 1px solid #47616a85;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #112b34;
+  transition:
+    transform 0.22s,
+    border-color 0.22s;
+}
+.room-card:hover {
+  transform: translateY(-4px);
+  border-color: #91b6a8;
+}
+.room-art {
+  aspect-ratio: 2.25;
+  overflow: hidden;
+}
+.room-art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.room-card:hover img {
+  transform: scale(1.045);
+}
+.room-copy {
+  padding: 16px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+}
+.room-copy h3 {
+  font-family: var(--serif);
+  font-size: clamp(16px, 1.4vw, 21px);
+  color: #f2f1df;
+  line-height: 1.35;
+}
+.room-copy p {
+  color: #adc3c2;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.room-copy > span {
+  color: #dfc69c;
+  font-size: 18px;
+}
+.planet-home .site-footer {
+  color: #a8c2bd;
+  border-color: #47616a77;
+}
+.planet-home .site-footer strong,
+.planet-home .site-footer nav a,
+.planet-home .site-footer button {
+  color: #bdd4ce;
+}
+.planet-home .site-footer span {
+  color: #99b2af;
+}
+#nav {
+  column-gap: clamp(13px, 2.3vw, 35px);
+}
+@media (max-width: 940px) {
+  .room-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sky-grid {
+    grid-template-columns: 0.83fr 1.17fr;
+  }
+  .sky h1 {
+    font-size: 58px;
+  }
+  .sky-stats {
+    gap: 13px;
+  }
+  .globe-scene {
+    height: 390px;
+  }
+  .globe-tools {
+    right: 0;
+  }
+  .header-inner {
+    column-gap: 12px;
+  }
+}
+@media (max-width: 720px) {
+  #nav {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    column-gap: 14px;
+    justify-content: flex-start;
+  }
+  #nav .nav-link {
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .sky-grid,
+  .globe-post,
+  .culture-rooms {
+    width: 92%;
+  }
+  .sky-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .sky-copy {
+    padding: 30px 0 0;
+  }
+  .sky h1 {
+    font-size: clamp(40px, 9vw, 59px);
+    margin: 11px 0;
+  }
+  .sky h1 br {
+    display: none;
+  }
+  .sky-copy > p {
+    font-size: 13px;
+  }
+  .sky-copy > p br {
+    display: none;
+  }
+  .sky-actions {
+    margin-top: 15px;
+  }
+  .sky-stats {
+    margin-top: 12px;
+    gap: 20px;
+  }
+  .sky-stats dd {
+    font-size: 18px;
+  }
+  .globe-scene {
+    height: clamp(285px, 74vw, 390px);
+  }
+  .globe-tools {
+    bottom: 0;
+    right: 0;
+  }
+  .globe-post {
+    margin-top: 10px;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  .post-pages {
+    gap: 7px;
+  }
+  .post-letter a {
+    display: block;
+    font-size: 14px;
+  }
+  .post-letter span {
+    display: block;
+  }
+  .post-letter small {
+    display: none;
+  }
+  .post-location select {
+    font-size: 12px;
+    max-width: 100px;
+  }
+  .post-location svg {
+    display: none;
+  }
+  .post-pages > a {
+    font-size: 12px;
+  }
+  .culture-rooms {
+    padding: 23px 0 30px;
+  }
+  .room-grid {
+    gap: 10px;
+  }
+  .room-copy {
+    padding: 10px;
+  }
+  .room-copy h3 {
+    font-size: 16px;
+  }
+  .room-copy p {
+    font-size: 11px;
+  }
+  .room-copy > span {
+    display: none;
+  }
+  .rooms-heading {
+    margin-bottom: 13px;
+  }
+  .room-art {
+    aspect-ratio: 1.95;
+  }
+}
+@media (max-width: 370px) {
+  .sky-stats {
+    gap: 12px;
+  }
+  .post-pages button {
+    padding: 3px;
+  }
+  .room-copy h3 {
+    font-size: 14px;
+  }
+  .room-copy p {
+    font-size: 10px;
+  }
+}
+.room-art {
+  position: relative;
+  aspect-ratio: 2;
+}
+.room-art:after {
+  content: "";
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(6, 19, 23, 0.86));
+  pointer-events: none;
+}
+.room-art h3 {
+  position: absolute;
+  z-index: 1;
+  bottom: 10px;
+  left: 14px;
+  right: 8px;
+  font: 600 clamp(17px, 1.5vw, 22px) / 1.4 var(--serif);
+  color: #fff5df;
+}
+.room-copy {
+  padding: 8px 14px;
+}
+.room-copy p {
+  margin: 0;
+}
+.globe-scene {
+  height: clamp(395px, 32.5vw, 500px);
+}
+.post-letter {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.post-letter > a {
+  min-width: 0;
+}
+.post-connections {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+.post-connections small {
+  color: #a9bab4;
+  font-size: 11px;
+}
+.post-connections button {
+  border: 0;
+  border-bottom: 1px dotted #76958b;
+  background: none;
+  color: #cae0d3;
+  font-size: 12px;
+  padding: 0 2px;
+}
+@media (max-width: 960px) {
+  .post-connections {
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .sky h1 {
+    font-size: clamp(28px, 8.4vw, 48px);
+    letter-spacing: 0.035em;
+  }
+  .sky h1 em {
+    display: inline-block;
+  }
+  .globe-scene {
+    height: clamp(285px, 74vw, 390px);
+  }
+  .room-art {
+    aspect-ratio: 1.65;
+  }
+  .room-art h3 {
+    bottom: 8px;
+    left: 9px;
+    font-size: clamp(14px, 3.6vw, 20px);
+  }
+  .room-copy {
+    padding: 7px 9px;
+  }
+}
+.globe-tools[hidden] {
+  display: none;
+}
+.globe-fallback {
+  height: auto;
+  min-height: 130px;
+  display: grid;
+  place-items: center;
+  cursor: auto;
+}
+.globe-fallback canvas {
+  display: none;
+}
+.globe-fallback .globe-pins {
+  height: auto;
+  position: static;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.globe-fallback .globe-pin {
+  position: static;
+  font-size: 13px;
+  padding: 7px;
+  height: auto;
+}
+@media (min-width: 721px) and (max-width: 920px) {
+  .header-inner {
+    flex-wrap: wrap;
+    row-gap: 0;
+    min-height: 0;
+    padding-top: 9px;
+  }
+  .head-actions {
+    order: 1;
+  }
+  #nav {
+    order: 2;
+    width: 100%;
+    height: 40px;
+    justify-content: space-between;
+  }
+  .nav-link.active:after {
+    bottom: 2px;
+  }
+  .brand img {
+    width: 34px;
+    height: 34px;
+  }
+  .brand b {
+    font-size: 21px;
+  }
+}

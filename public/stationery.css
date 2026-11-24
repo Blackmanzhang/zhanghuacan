@@ -1,0 +1,244 @@
+/* The same paper inks and stamp plates appear on the writing desk and in the finished letter. */
+.cover-current {
+  position: relative;
+  overflow: hidden;
+  margin: 12px 0 10px;
+  border-radius: 6px;
+  background: #122d35;
+}
+.cover-current #selected-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2.2;
+  object-fit: cover;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+.cover-current figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 22px 12px 6px;
+  color: #fffaea;
+  background: linear-gradient(transparent, #10282bcf);
+  font: 600 14px/1.5 var(--serif);
+  letter-spacing: 0.08em;
+}
+.editor-tools .cover-picks {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+}
+.cover-picks .art-option {
+  min-width: 0;
+  width: 100%;
+  padding: 2px;
+}
+.cover-picks .art-option img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.35;
+  object-fit: cover;
+}
+.cover-upload {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+}
+.cover-upload label {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 1px dashed #779e91;
+  border-radius: 5px;
+  background: #f4f7ed;
+  color: #205449;
+  cursor: pointer;
+  padding: 7px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.cover-upload label:focus-within {
+  outline: 2px solid #a9602a;
+  outline-offset: 2px;
+}
+.cover-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.cover-upload small,
+.review-cover figcaption {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #566c69;
+}
+.cover-feedback:empty {
+  display: none;
+}
+.editor-tools .cover-feedback {
+  margin: 4px 0;
+  font-size: 12px;
+}
+.sea-mail-cover {
+  position: relative;
+  display: block;
+  flex: 0 0 54px;
+  height: 54px;
+}
+.sea-mail-cover > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.sea-mail-cover .bottle-shape {
+  position: absolute;
+  right: -5px;
+  bottom: -2px;
+  filter: drop-shadow(0 1px 1px #24423866);
+}
+.sea-mail-cover .bottle-shape svg {
+  width: 15px;
+  height: 24px;
+}
+.review-cover {
+  margin: 12px 0;
+}
+.review-cover img {
+  height: 145px;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0;
+}
+.preview-cover {
+  display: block;
+  width: 100%;
+  height: clamp(90px, 16vh, 150px);
+  border-radius: 4px;
+  object-fit: cover;
+  margin: 0 0 16px;
+}
+.sheet.paper-ledger,
+.paper-preview.paper-ledger,
+.paper-specimen.paper-ledger {
+  background-color: #f4f2dc;
+  background-image:
+    linear-gradient(#7a978628 1px, transparent 1px),
+    linear-gradient(90deg, #7a978628 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.sheet.paper-rice,
+.paper-preview.paper-rice,
+.paper-specimen.paper-rice {
+  background-color: #f3f5df;
+  background-image:
+    linear-gradient(91deg, transparent 94%, #8ba08030 94.3%, transparent 95.2%),
+    repeating-linear-gradient(
+      117deg,
+      transparent 0 6px,
+      #99aa7620 6.2px,
+      transparent 6.6px 11px
+    );
+}
+.sheet.paper-tide,
+.paper-preview.paper-tide,
+.paper-specimen.paper-tide {
+  background-color: #e7f2f0;
+  background-image: repeating-radial-gradient(
+    ellipse at 100% 106%,
+    transparent 0 18px,
+    #79aaa532 19px,
+    transparent 20px 25px
+  );
+}
+.sheet.paper-linen,
+.paper-preview.paper-linen,
+.paper-specimen.paper-linen {
+  background-color: #f3e3c7;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 3px,
+      #ab8b6730 3.5px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 4px,
+      #fdf8e69c 4.5px,
+      transparent 5px
+    );
+}
+.paper-specimen {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 82px;
+  margin: 17px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #b8b9a3;
+  padding: 12px;
+  color: #35413b;
+  overflow: hidden;
+}
+.paper-specimen > span {
+  font: 600 16px/1.35 var(--serif);
+  letter-spacing: 0.08em;
+}
+.paper-specimen > i {
+  width: 28px;
+  height: 1px;
+  background: #8e9777;
+}
+.paper-specimen [data-paper-stamp] {
+  margin-left: auto;
+}
+.paper-specimen .paper-stamp {
+  float: none;
+  margin: 0;
+}
+.paper-stamp:has(img) {
+  background: #fbf4db;
+  color: #3a463d;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 3px dotted #d6c6a2;
+  outline: 1px solid #b4a47f;
+  min-width: 56px;
+  min-height: 55px;
+}
+.paper-stamp img {
+  display: block;
+  width: 48px;
+  height: 33px;
+  max-width: 100%;
+  object-fit: cover;
+}
+.paper-stamp small {
+  white-space: nowrap;
+}
+.paper-stamp.stamp-beacon img {
+  object-position: 62% center;
+}
+.paper-stamp.stamp-junk img {
+  object-position: center center;
+}
+@media (max-width: 550px) {
+  .sea-mail-cover {
+    flex-basis: 36px;
+    height: 40px;
+  }
+  .editor-tools .cover-picks {
+    gap: 6px;
+  }
+}

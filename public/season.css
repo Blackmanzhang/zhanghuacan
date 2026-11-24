@@ -1,0 +1,550 @@
+/* The Mid-Autumn print and its adjacent reading, studio and review tools. */
+.header-inner {
+  gap: 24px;
+}
+#nav {
+  gap: clamp(15px, 2.3vw, 33px);
+}
+.festival-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.24fr);
+  background: #f0efdf;
+  border: 1px solid #c9d3c2;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+.festival-intro {
+  align-self: center;
+  padding: 35px clamp(25px, 3.8vw, 57px);
+}
+.festival-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #516850;
+  font-weight: 650;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+}
+.festival-kicker i {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #a9583f;
+}
+.festival-kicker span {
+  color: #a1a58e;
+}
+.festival-intro h1 {
+  font-family: var(--serif);
+  font-size: clamp(44px, 4.3vw, 70px);
+  line-height: 1.25;
+  letter-spacing: 0.055em;
+  color: #1f493c;
+  margin: 11px 0 13px;
+}
+.festival-intro p {
+  color: #46594b;
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 22px;
+}
+.festival-print {
+  min-width: 0;
+  position: relative;
+  min-height: 335px;
+  background: #a1bfad;
+}
+.festival-print img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+  object-position: 56% 52%;
+}
+.festival-hero .btn.secondary {
+  background: #fbfcf3;
+  border-color: #aab8a4;
+  color: var(--green);
+}
+.festival-bar {
+  border: 1px solid #c9d3c2;
+  border-top: 0;
+  border-radius: 0 0 11px 11px;
+  padding: 10px 23px;
+  background: #f7f7ee;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+.festival-progress,
+.progress-marks {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.festival-progress {
+  font-size: 13px;
+  color: #505e51;
+}
+.progress-marks {
+  gap: 3px;
+}
+.progress-marks i {
+  height: 6px;
+  width: 16px;
+  border-radius: 2px;
+  background: #d8dfcf;
+}
+.progress-marks i.done {
+  background: #417965;
+}
+.browse-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.browse-actions button {
+  font-size: 14px;
+}
+.pickup-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.pickup-top .result-count {
+  margin: 0;
+}
+.pickup-switch {
+  padding: 3px;
+  display: inline-flex;
+  border: 1px solid #c5cfbf;
+  border-radius: 8px;
+  background: #e9eee3;
+}
+.pickup-switch button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: #556858;
+  padding: 6px 11px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.pickup-switch button[aria-pressed="true"] {
+  background: #fffef8;
+  color: var(--green);
+  box-shadow: 0 1px 3px #182f211a;
+}
+.pickup-sea {
+  border-radius: 12px;
+  min-height: 320px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #abc0ae;
+  background: #d2e3d5;
+}
+.pickup-sea::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(0deg, #729b8d99, #e5efde66),
+    url("/art/hero.png") center 80% / cover;
+  opacity: 0.69;
+}
+.pickup-bottles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 22px;
+  padding: 30px 4.5%;
+}
+.sea-letter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  align-self: center;
+  min-width: 0;
+  padding: 7px 11px;
+  border: 1px solid #cfdbcd;
+  border-radius: 10px;
+  background: #fffdf0ed;
+  color: #244c3d;
+  box-shadow: 2px 4px 0 #52756424;
+}
+.sea-letter:nth-child(3n + 2) {
+  margin-top: 28px;
+}
+.sea-letter small,
+.sea-letter b {
+  display: block;
+}
+.sea-letter small {
+  font-size: 12px;
+  color: #6e7562;
+}
+.sea-letter b {
+  font: 700 17px/1.5 var(--serif);
+  overflow-wrap: anywhere;
+}
+.sea-letter:hover .bottle-shape {
+  transform: rotate(-7deg);
+}
+.bottle-shape {
+  transition: transform 0.2s;
+}
+.sea-pages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 13px;
+  font-size: 14px;
+}
+.stationery-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.paper-preview,
+.sheet {
+  position: relative;
+}
+.paper-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  min-height: 61px;
+  float: right;
+  margin: 0 0 8px 10px;
+  color: #9a5239;
+  background: #f0dec8;
+  border: 3px dotted #fff9ec;
+  outline: 1px solid #dbc2ac;
+  transform: rotate(4deg);
+  line-height: 1.2;
+  text-align: center;
+}
+.paper-stamp b {
+  font: 700 24px var(--serif);
+}
+.paper-stamp small {
+  font-size: 10px;
+}
+.stamp-sail {
+  color: #4d7362;
+  background: #dde8d7;
+}
+.stamp-flower {
+  background: #efe2b4;
+  color: #7c622f;
+}
+.paper-sea {
+  background-color: #f0f5ee;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 29px,
+    #879b8312 30px
+  );
+}
+.paper-peach {
+  background-color: #fcf1e0;
+}
+.paper-ivory {
+  background-color: #fffef8;
+}
+.paper-preview {
+  min-height: 220px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 20px;
+}
+.paper-preview h3 {
+  font: 700 23px/1.5 var(--serif);
+  margin-top: 12px;
+}
+.paper-preview .prose {
+  margin: 16px 0;
+}
+.original-text p {
+  margin: 0 0 0.85em;
+}
+.original-text mark {
+  background: #fae6a0;
+  color: inherit;
+}
+.reference {
+  margin: 20px 0;
+  padding: 10px 15px;
+  border-inline-start: 3px solid #879c72;
+  background: #f4f4e9;
+  font-size: 14px;
+}
+.reference small {
+  color: #62705b;
+}
+.reference a {
+  font-size: 13px;
+  color: var(--green);
+  text-decoration: underline;
+}
+.reference p {
+  white-space: pre-wrap;
+  margin: 5px 0;
+}
+.festival-invite {
+  overflow: hidden;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: #f3f2e3;
+  border: 1px solid #d5d8c8;
+  border-radius: 10px;
+  margin: 0 0 24px;
+}
+.festival-invite img {
+  width: min(25%, 210px);
+  height: 112px;
+  object-fit: cover;
+}
+.festival-invite h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  margin: 0;
+}
+.festival-invite small {
+  font-size: 13px;
+  color: #61705e;
+}
+.festival-invite p {
+  font-size: 14px;
+  color: #5a685a;
+}
+.festival-invite > span {
+  margin-left: auto;
+  margin-right: 24px;
+  color: var(--green);
+}
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.footer-actions :is(button, a) {
+  font-size: 13px;
+  color: #59675b;
+  font-weight: 500;
+}
+.review-screen {
+  max-width: 950px;
+  margin: auto;
+}
+.review-screen .panel {
+  margin-bottom: 16px;
+}
+.review-screen h2 {
+  margin-bottom: 10px;
+}
+.review-screen .field {
+  max-width: 500px;
+}
+.review-screen .row-actions {
+  margin: 13px 0;
+}
+.review-screen .review-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 9px 0;
+}
+.review-screen details {
+  margin: 15px 0;
+}
+.review-screen code {
+  font:
+    14px Consolas,
+    monospace;
+}
+@media (max-width: 1000px) {
+  #nav {
+    gap: 15px;
+  }
+  .header-inner {
+    gap: 13px;
+  }
+  .festival-intro {
+    padding: 25px;
+  }
+  .festival-print {
+    min-height: 300px;
+  }
+  .pickup-bottles {
+    gap: 13px;
+  }
+  .sea-letter {
+    padding: 6px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .head-actions {
+    gap: 8px;
+  }
+}
+@media (max-width: 760px) {
+  .festival-hero {
+    grid-template-columns: 1fr 1fr;
+  }
+  .festival-intro .btn {
+    padding: 8px 12px;
+    min-height: 38px;
+  }
+  .festival-intro {
+    padding: 23px 18px;
+  }
+  .festival-intro h1 {
+    font-size: 40px;
+  }
+  .festival-intro p {
+    font-size: 14px;
+  }
+  .festival-print {
+    min-height: 265px;
+  }
+  .pickup-bottles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 18px;
+  }
+  .sea-letter:nth-child(n) {
+    margin: 0;
+  }
+  .footer-actions {
+    gap: 9px;
+  }
+  .site-footer {
+    gap: 12px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 720px) {
+  #nav {
+    gap: 12px;
+    overflow: auto;
+    scrollbar-width: none;
+  }
+  .nav-link {
+    flex-shrink: 0;
+  }
+  #nav::-webkit-scrollbar {
+    display: none;
+  }
+  .festival-bar {
+    padding: 8px 11px;
+  }
+  .progress-marks i {
+    width: 10px;
+  }
+  .festival-progress {
+    gap: 7px;
+  }
+  .stationery-options {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
+  .stationery-options button {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 550px) {
+  .festival-hero {
+    grid-template-columns: 1fr;
+  }
+  .festival-intro {
+    padding: 21px 22px;
+  }
+  .festival-intro h1 {
+    margin: 6px 0;
+    font-size: 43px;
+  }
+  .festival-intro p {
+    margin-bottom: 14px;
+  }
+  .festival-print {
+    min-height: 0;
+    height: clamp(143px, 39vw, 195px);
+  }
+  .festival-print img {
+    object-position: 55% 46%;
+  }
+  .festival-kicker {
+    font-size: 13px;
+  }
+  .progress-marks {
+    display: none;
+  }
+  .festival-bar .text-link {
+    font-size: 13px;
+  }
+  .festival-progress {
+    font-size: 12px;
+  }
+  .browse-actions {
+    gap: 10px;
+  }
+  .pickup-bottles {
+    padding: 13px;
+    gap: 10px;
+  }
+  .sea-letter {
+    gap: 3px;
+  }
+  .sea-letter b {
+    font-size: 15px;
+  }
+  .bottle-shape svg {
+    width: 24px;
+  }
+  .pickup-sea {
+    min-height: 0;
+  }
+  .festival-invite {
+    gap: 10px;
+  }
+  .festival-invite h2 {
+    font-size: 22px;
+  }
+  .festival-invite p {
+    font-size: 13px;
+  }
+  .festival-invite > span {
+    margin-right: 9px;
+  }
+  .pickup-switch button {
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+  .footer-actions {
+    margin-left: auto;
+  }
+}
+@media (max-width: 550px) {
+  #nav {
+    gap: 8px;
+  }
+  .nav-link {
+    font-size: 13px;
+  }
+}
