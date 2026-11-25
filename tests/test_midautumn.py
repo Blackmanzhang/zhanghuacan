@@ -36,10 +36,6 @@ class Client:
                 raise AssertionError((path,response.status,status,body))
             return json.loads(body) if response.headers.get_content_type()=="application/json" else body
 
-    def panel(self, key):
-        return next(p for p in self.call("state")["workshop"]["panels"] if p["id"] == key)
-
-
 class MidAutumnTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -88,97 +84,29 @@ class MidAutumnTest(unittest.TestCase):
             self.assertEqual(result["mine"][0]["body"],"保留内容")
             self.assertEqual(result["mine"][0]["tags"],[])
             self.assertEqual(result["inbox"][0]["body"],"私人回信")
-            self.assertEqual((len(result["workshop"]["panels"]),len(result["workshop"]["sourceIds"])),(6,2))
+            self.assertNotIn("workshop",result)
+            self.assertEqual(db.execute("SELECT count(*) FROM scroll_panels").fetchone()[0],10)
 
-    def test_concurrent_claim_and_release(self):
-        def claim(client):
-            try:
-                client.call("workshop/claim",{"panelId":"m2"})
-                return True
-            except AssertionError as exc:
-                self.assertEqual(exc.args[0][1],409)
-                return False
+    def test_retired_workshop_and_independent_notebook_pages(self):
+        self.a.call("workshop/claim", {"panelId":"m2"}, 404)
+        self.a.call("workshop/submit", {"panelId":"m2"}, 404)
+        previous = self.b.call("notebooks/book/moon")["pages"][-1]["number"]
+        template = {"notebook":"moon","body":"跨海的中秋记忆","exhibit":True}
+        def submit(client, title):
+            return client.call("notebooks/submit", {**template,"title":title})["id"]
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-            outcomes=list(pool.map(claim,[self.a,self.b]))
-        self.assertEqual(sum(outcomes),1)
-        owner,other = (self.a,self.b) if outcomes[0] else (self.b,self.a)
-        other.call("workshop/release",{"panelId":"m2"},409)
-        owner.call("workshop/release",{"panelId":"m2"})
-        other.call("workshop/claim",{"panelId":"m2"})
-        self.assertIsNotNone(other.panel("m2")["claimedBy"])
-
-    def test_versions_consent_and_source(self):
-        src=self.a.call("letters",{"title":"月下","body":"茶盏已经摆好。","exhibit":True})["id"]
-        self.cli(src)
-        panel={"panelId":"m2"}
-        post={**panel,"title":"画格甲","body":"第一版","art":"moon","exhibit":True,"sourceId":src}
-        self.a.call("workshop/claim",panel)
-        self.a.call("workshop/submit",{**post,"exhibit":False},400)
-        self.a.call("workshop/submit",{**post,"sourceId":"r1"},400)
-        v=self.a.call("workshop/submit",post)["id"]
-        self.assertNotIn("画格甲",json.dumps(self.b.call("state"),ensure_ascii=False))
-        self.assertEqual(self.a.panel("m2")["mine"]["status"],"pending")
-        self.a.call("workshop/submit",post,409)
-        self.cli(v)
-        self.assertEqual(self.b.panel("m2")["current"]["id"],v)
-        self.a.call("workshop/submit",{**post,"body":"未公开修订"})
-        second=self.a.panel("m2")["mine"]
-        self.assertNotIn("未公开修订",json.dumps(self.b.call("state"),ensure_ascii=False))
-        self.a.call("workshop/withdraw",{"versionId":second["id"]})
-        self.assertEqual(self.b.panel("m2")["current"]["id"],v)
-        self.b.call("workshop/withdraw",{"versionId":v},403)
-        self.a.call("permissions",{"letterId":src,"exhibit":False})
-        self.assertIsNone(self.b.panel("m2")["current"])
-        self.assertEqual(self.b.panel("m2")["versions"],[])
-        self.a.call("permissions",{"letterId":src,"exhibit":True})
-        self.assertEqual(self.b.panel("m2")["current"]["id"],v)
-        self.a.call("withdraw",{"letterId":src})
-        self.assertIsNone(self.b.panel("m2")["current"])
-        self.a.call("workshop/release",panel)
-        self.b.call("workshop/claim",panel)
-        second_user=self.b.call("workshop/submit",{**post,"sourceId":None,"body":"另一位作者的画格"})["id"]
-        self.cli(second_user)
-        self.a.call("workshop/withdraw",{"versionId":v})
-        self.assertEqual(self.b.panel("m2")["current"]["id"],second_user)
-
-    def test_visual_relay_authorization_and_revocation(self):
-        first = {"panelId":"m2", "title":"第一张画", "body":"甲在纸面添了题字。", "art":"moon",
-                 "scene":[{"kind":"text","x":160,"y":130,"size":25,"color":"#ab753a",
-                           "text":"甲的专属题字"}], "exhibit":True, "allowRemix":True}
-        second = {**first, "title":"添上船帆", "body":"乙刻了一艘船。", "scene":[
-            {"kind":"stamp","symbol":"boat","color":"#305b50","x":40,"y":80,"size":105}]}
-        src = self.a.call("letters", {"title":"题字出处","body":"纸面题字","exhibit":True})["id"]
-        self.cli(src)
-        self.a.call("workshop/claim", {"panelId":"m2"})
-        for scene in ([], [{"kind":"html","color":"#ffffff"}],
-                      [{"kind":"stamp","symbol":"boat","color":"#abcdef","x":801,"y":0,"size":12}],
-                      [{"kind":"stroke","color":"#abcdef","width":2,"points":[[0,False]]}]):
-            self.a.call("workshop/submit",{**first,"scene":scene},400)
-        a = self.a.call("workshop/submit",{**first,"sourceId":src})["id"]
-        self.assertIsNone(self.b.panel("m2")["current"])
-        self.cli(a)
-        self.assertIsNone(self.b.panel("m2")["claimedBy"])
-        self.b.call("workshop/claim", {"panelId":"m2"})
-        self.b.call("workshop/submit", {**second,"baseId":"sample_m1"},409)
-        b = self.b.call("workshop/submit",{**second,"baseId":a,"allowRemix":False})["id"]
-        self.a.call("permissions", {"letterId":src,"exhibit":False})
+            first, second = list(pool.map(lambda pair: submit(*pair),
+                                          [(self.a,"第一张手账"),(self.b,"第二张手账")]))
+        self.mod.call("notebooks/page/"+first, status=404)
         self.mod.call("admin/login", {"token":self.token()})
-        self.mod.call("admin/review", {"id":b,"decision":"approve"},409)
-        self.assertNotIn("甲的专属题字",json.dumps(self.mod.call("admin/queue"),ensure_ascii=False))
-        self.a.call("permissions", {"letterId":src,"exhibit":True})
-        self.cli(b)
-        current = self.mod.panel("m2")["current"]
-        self.assertEqual(current["id"], b)
-        self.assertEqual([l["authorId"] for l in current["layers"]],[self.aid,self.bid])
-        self.assertEqual([l["items"][0]["kind"] for l in current["layers"]],["text","stamp"])
-        self.a.call("workshop/claim", {"panelId":"m2"})
-        self.a.call("workshop/submit", {**first,"baseId":b},409)
-        self.a.call("workshop/withdraw", {"versionId":a})
-        self.assertIsNone(self.mod.panel("m2")["current"])
-        mine = self.b.panel("m2")["mine"]
-        self.assertFalse(mine["baseAvailable"])
-        self.assertEqual([l["id"] for l in mine["layers"]],[b])
-        self.assertNotIn("甲的专属题字", json.dumps(self.b.panel("m2"),ensure_ascii=False))
+        ids = [row["id"] for row in self.mod.call("admin/queue")["items"]]
+        self.assertCountEqual(ids,[first,second])
+        self.cli(second)
+        self.mod.call("admin/review", {"id":first,"decision":"approve"})
+        pages = self.mod.call("notebooks/book/moon")["pages"]
+        self.assertEqual([(row["id"],row["number"]) for row in pages[-2:]],[(second,previous+1),(first,previous+2)])
+        self.a.call("notebooks/withdraw", {"id":first})
+        self.b.call("notebooks/page/"+first, status=404)
 
     def test_quote_tags_permissions_and_moderation(self):
         self.a.call("account",{"name":"测试甲","password":"test-pass-a","region":"臺南市"})
@@ -215,10 +143,8 @@ class MidAutumnTest(unittest.TestCase):
         self.assertEqual(server.regional("臺南市"),("台湾台南","台湾"))
         self.assertEqual(server.regional("福建·泉州"),("福建泉州","大陆"))
 
-    def test_guest_logout_preserves_claim_and_region_input(self):
-        self.a.call("workshop/claim", {"panelId":"m2"})
+    def test_guest_logout_preserves_identity_and_region_input(self):
         self.a.call("logout", {})
-        self.assertEqual(self.a.panel("m2")["claimedBy"], self.aid)
         self.assertEqual(self.a.call("state")["me"]["id"], self.aid)
         template = {"title":"中秋记忆", "body":"故乡的月色。"}
         self.a.call("letters", {**template, "region":"未识别的城市"}, 400)

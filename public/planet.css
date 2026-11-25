@@ -1,55 +1,22 @@
 /* The home observatory and its museum entrances */
 .planet-home {
-  background: #071b24;
-  color: #edf4e9;
-}
-.planet-home .site-header {
-  background: #0a2029;
-  border-color: #b1cbb425;
-}
-.planet-home .brand small,
-.planet-home .nav-link {
-  color: #a8bfbe;
-}
-.planet-home .brand b,
-.planet-home .nav-link.active,
-.planet-home .nav-link:hover {
-  color: #f0f5e9;
-}
-.planet-home .nav-link.active:after {
-  background: #84d7c2;
-}
-.planet-home .account-link {
-  background: #16343c;
-  border-color: #32505a;
-  color: #dcebe6;
-}
-.planet-home .head-actions .solid {
-  background: #a2dbc7;
-  color: #0b3535;
-  border-color: #a2dbc7;
+  color: var(--shell-ink);
 }
 .planet-home #main {
-  width: 100%;
-  max-width: none;
   padding: 0;
-  margin: 0;
 }
 .planet-shell {
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 67% 24%, #133540 0, transparent 47%), #081d27;
 }
 .sky-grid,
 .globe-post,
 .culture-rooms {
-  width: min(1280px, 90%);
-  margin-inline: auto;
+  width: 100%;
 }
 .sky-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 0.86fr 1.35fr;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.35fr);
   align-items: center;
   min-height: 455px;
 }
@@ -62,7 +29,7 @@
   align-items: center;
   gap: 13px;
   color: #abd6c8;
-  font-size: 13px;
+  font-size: clamp(14px, 1.1cqw, 16px);
   font-weight: 600;
   letter-spacing: 0.18em;
 }
@@ -73,7 +40,7 @@
 }
 .sky h1 {
   font-family: var(--serif);
-  font-size: clamp(54px, 5.5vw, 82px);
+  font-size: clamp(44px, 6.7cqw, 96px);
   line-height: 1.13;
   letter-spacing: 0.055em;
   font-weight: 550;
@@ -86,27 +53,29 @@
 }
 .sky-copy > p {
   color: #bbcdcc;
-  font-size: 15px;
+  font-size: clamp(16px, 1.35cqw, 19px);
   line-height: 1.85;
   letter-spacing: 0.055em;
 }
 .sky-actions {
   margin-top: 24px;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 .sky-actions > a,
 .sky-actions > button {
-  padding: 9px 17px;
+  min-height: clamp(49px, 4.4cqw, 62px);
+  padding: 11px clamp(17px, 1.95cqw, 31px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border-radius: 6px;
-  border: 1px solid #587575;
-  background: #0a252d;
-  color: #d6e6dd;
-  font-size: 14px;
+  border: 1px solid #7a9d96;
+  background: #184049;
+  color: #eef5ed;
+  font-size: clamp(16px, 1.28cqw, 19px);
   font-weight: 650;
 }
 .sky-actions > button {
@@ -120,22 +89,24 @@
 .sky-stats {
   margin: 27px 0 0;
   display: flex;
-  gap: 22px;
+  flex-wrap: wrap;
+  gap: 6px 22px;
 }
 .sky-stats > div {
   display: flex;
   align-items: baseline;
   gap: 6px;
+  white-space: nowrap;
 }
 .sky-stats dd {
   font-family: Georgia, serif;
   font-variant-numeric: lining-nums;
-  font-size: 23px;
+  font-size: clamp(24px, 2.05cqw, 33px);
   margin: 0;
   color: #f0d1a2;
 }
 .sky-stats dt {
-  font-size: 12px;
+  font-size: clamp(12px, 1.04cqw, 15px);
   color: #abc2c0;
 }
 .globe-stage {
@@ -285,7 +256,7 @@
 }
 .rooms-heading h2 {
   color: #e6efe4;
-  font-size: clamp(24px, 2.5vw, 33px);
+  font-size: clamp(25px, 2.7vw, 39px);
   font-family: var(--serif);
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -345,37 +316,19 @@
 }
 .room-copy p {
   color: #adc3c2;
-  font-size: 12px;
+  font-size: clamp(12px, 0.86cqw, 14px);
   margin-top: 5px;
 }
 .room-copy > span {
   color: #dfc69c;
   font-size: 18px;
 }
-.planet-home .site-footer {
-  color: #a8c2bd;
-  border-color: #47616a77;
-}
-.planet-home .site-footer strong,
-.planet-home .site-footer nav a,
-.planet-home .site-footer button {
-  color: #bdd4ce;
-}
-.planet-home .site-footer span {
-  color: #99b2af;
-}
-#nav {
-  column-gap: clamp(13px, 2.3vw, 35px);
-}
 @media (max-width: 940px) {
   .room-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .sky-grid {
-    grid-template-columns: 0.83fr 1.17fr;
-  }
-  .sky h1 {
-    font-size: 58px;
+    grid-template-columns: minmax(0, 0.83fr) minmax(0, 1.17fr);
   }
   .sky-stats {
     gap: 13px;
@@ -386,26 +339,26 @@
   .globe-tools {
     right: 0;
   }
-  .header-inner {
+}
+@container site-content (max-width: 840px) {
+  .sky-copy > p {
+    font-size: 15px;
+    letter-spacing: 0.025em;
+  }
+  .sky-copy > p br {
+    display: none;
+  }
+  .sky-stats {
     column-gap: 12px;
+  }
+  .sky-stats dd {
+    font-size: 20px;
+  }
+  .sky-stats dt {
+    font-size: 11px;
   }
 }
 @media (max-width: 720px) {
-  #nav {
-    overflow-x: auto;
-    scrollbar-width: thin;
-    column-gap: 14px;
-    justify-content: flex-start;
-  }
-  #nav .nav-link {
-    font-size: 13px;
-    flex-shrink: 0;
-  }
-  .sky-grid,
-  .globe-post,
-  .culture-rooms {
-    width: 92%;
-  }
   .sky-grid {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -421,7 +374,7 @@
     display: none;
   }
   .sky-copy > p {
-    font-size: 13px;
+    font-size: 14px;
   }
   .sky-copy > p br {
     display: none;
@@ -527,7 +480,7 @@
   bottom: 10px;
   left: 14px;
   right: 8px;
-  font: 600 clamp(17px, 1.5vw, 22px) / 1.4 var(--serif);
+  font: 600 clamp(18px, 1.55vw, 25px) / 1.4 var(--serif);
   color: #fff5df;
 }
 .room-copy {
@@ -537,7 +490,7 @@
   margin: 0;
 }
 .globe-scene {
-  height: clamp(395px, 32.5vw, 500px);
+  height: clamp(395px, 33vw, 555px);
 }
 .post-letter {
   display: flex;
@@ -565,14 +518,14 @@
   font-size: 12px;
   padding: 0 2px;
 }
-@media (max-width: 960px) {
+@container site-content (max-width: 860px) {
   .post-connections {
     display: none;
   }
 }
 @media (max-width: 720px) {
   .sky h1 {
-    font-size: clamp(28px, 8.4vw, 48px);
+    font-size: clamp(29px, 8.7vw, 50px);
     letter-spacing: 0.035em;
   }
   .sky h1 em {
@@ -619,31 +572,4 @@
   font-size: 13px;
   padding: 7px;
   height: auto;
-}
-@media (min-width: 721px) and (max-width: 920px) {
-  .header-inner {
-    flex-wrap: wrap;
-    row-gap: 0;
-    min-height: 0;
-    padding-top: 9px;
-  }
-  .head-actions {
-    order: 1;
-  }
-  #nav {
-    order: 2;
-    width: 100%;
-    height: 40px;
-    justify-content: space-between;
-  }
-  .nav-link.active:after {
-    bottom: 2px;
-  }
-  .brand img {
-    width: 34px;
-    height: 34px;
-  }
-  .brand b {
-    font-size: 21px;
-  }
 }

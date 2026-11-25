@@ -74,6 +74,13 @@
       "联合国教科文组织 · 送王船",
       "https://ich.unesco.org/en/RL/ong-chun-wangchuan-wangkang-ceremony-rituals-and-related-practices-for-maintaining-the-sustainable-connection-between-man-and-the-ocean-01608",
     ],
+    macauHeritage: ["联合国教科文组织世界遗产中心 · 澳门历史城区", "https://whc.unesco.org/en/list/1110/"],
+    diaolou: ["联合国教科文组织世界遗产中心 · 开平碉楼与村落", "https://whc.unesco.org/en/list/1112/"],
+    hueHeritage: ["联合国教科文组织世界遗产中心 · 顺化古迹群", "https://whc.unesco.org/en/list/678/"],
+    ayutthayaHeritage: ["联合国教科文组织世界遗产中心 · 大城历史城区", "https://whc.unesco.org/en/list/576/"],
+    kulangsu: ["联合国教科文组织世界遗产中心 · 鼓浪屿", "https://whc.unesco.org/en/list/1541/"],
+    quanzhouHeritage: ["联合国教科文组织世界遗产中心 · 宋元中国的世界海洋商贸中心", "https://whc.unesco.org/en/list/1561/"],
+    botanic: ["联合国教科文组织世界遗产中心 · 新加坡植物园", "https://whc.unesco.org/en/list/1483/"],
   };
   const places = [
     {
@@ -84,6 +91,7 @@
       art: "boat",
       aliases: ["泉州"],
       cards: [
+        {"theme": "港口街区", "title": "从桥、码头到生产作坊", "tags": ["宋元泉州", "码头"], "body": "宋元泉州的世界遗产由多处遗址组成。桥梁和码头连通交通，陶瓷与冶铁遗址可以帮助理解商贸港口背后的生产体系。", "source": "quanzhouHeritage"},
         {
           theme: "乡音曲艺",
           title: "用泉州方言唱一支南音",
@@ -126,6 +134,7 @@
       art: "leaf",
       aliases: ["新加坡", "Singapore"],
       cards: [
+        {"theme": "地方手艺", "title": "一座植物园里的种植实验", "tags": ["新加坡植物园", "植物"], "body": "新加坡植物园最初是热带植物的研究场所之一。园中仍能观察到景观、植物引种和研究历史留下的空间布局。", "source": "botanic"},
         {
           theme: "食与日常",
           title: "小贩中心的共同餐桌",
@@ -151,6 +160,7 @@
       art: "wave",
       aliases: ["厦门", "廈門", "Xiamen"],
       cards: [
+        {"theme": "港口街区", "title": "隔着水面看鼓浪屿", "tags": ["鼓浪屿", "厦门"], "body": "鼓浪屿位于厦门对岸。岛上既有闽南传统民居，也有近代西式和融合多种风格的建筑。沿路观察它们如何相邻，比只看单座建筑更能读出这段交流史。", "source": "kulangsu"},
         {
           theme: "海洋信俗",
           title: "厦门湾的王船",
@@ -250,6 +260,7 @@
       aliases: ["槟城", "檳城", "乔治市", "喬治市", "Penang", "George Town"],
       art: "courtyard",
       cards: [
+        {"theme": "地方手艺", "title": "店屋的前厅与街面", "tags": ["乔治市", "店屋"], "body": "乔治市与马六甲的历史城区保存了成片的店屋。街道、店铺和居住空间相接，保留着港口社区长期交易与生活的关系。", "source": "straits"},
         {
           theme: "港口街区",
           title: "一条店屋街记录的往来",
@@ -342,15 +353,64 @@
         },
       ],
     },
+    {
+      id: "macau",
+      city: "澳门",
+      area: "港澳",
+      coords: [113.541, 22.194],
+      art: "courtyard",
+      aliases: ["澳门", "澳門"],
+      cards: [
+        {"theme": "港口街区", "title": "澳门旧城的广场与街巷", "tags": ["澳门历史城区", "港口"], "body": "从议事亭前地走入周围街巷，可以看到广场、住宅与宗教建筑连成的旧城空间。不同建筑习惯共同留下了海上贸易城市的痕迹。", "source": "macauHeritage"},
+        {"theme": "地方手艺", "title": "读一读旧城里的中西建筑", "tags": ["澳门历史城区", "建筑"], "body": "澳门历史城区保存了中式庙宇，也保存了教堂和城防设施。沿街观察建筑的功能、材料和布局，可以把这座旧港放回海上交流的历史中。", "source": "macauHeritage"},
+      ],
+    },
+    {
+      id: "kaiping",
+      city: "开平",
+      area: "广东",
+      coords: [112.69, 22.36],
+      art: "courtyard",
+      aliases: ["开平", "開平"],
+      cards: [
+        {"theme": "地方手艺", "title": "碉楼的防守与营造", "tags": ["开平碉楼", "侨乡"], "body": "开平碉楼是村落中的多层防御建筑。不同碉楼的墙体、开窗和顶部装饰各有特征，体现地方营造与海外建筑风格的结合。", "source": "diaolou"},
+        {"theme": "港口街区", "title": "侨乡里的返乡建筑", "tags": ["开平碉楼", "侨乡"], "body": "开平既是侨乡，也是观察移民往返的地方。十九世纪末至二十世纪初，离乡者同故乡的联系体现在碉楼与村落的建造中。", "source": "diaolou"},
+      ],
+    },
+    {
+      id: "hue",
+      city: "顺化",
+      area: "越南",
+      coords: [107.58, 16.47],
+      art: "boat",
+      aliases: ["顺化", "順化", "Huế"],
+      cards: [
+        {"theme": "港口街区", "title": "香江穿过顺化", "tags": ["顺化古迹群", "香江"], "body": "香江贯穿顺化。沿河看去，旧都的城墙、宫城和周围景观彼此关联，用河流作线索可以读出城市的格局。", "source": "hueHeritage"},
+        {"theme": "地方手艺", "title": "宫城、园林与山水", "tags": ["顺化古迹群", "园林"], "body": "顺化古迹群还包括分布在城外的陵寝和其他建筑。建筑与地形、水系的组合，是阅读这处遗产布局的一条线索。", "source": "hueHeritage"},
+      ],
+    },
+    {
+      id: "ayutthaya",
+      city: "大城",
+      area: "泰国",
+      coords: [100.56, 14.35],
+      art: "lantern",
+      aliases: ["大城", "阿瑜陀耶", "Ayutthaya"],
+      cards: [
+        {"theme": "港口街区", "title": "河道围合的旧都", "tags": ["大城遗址", "河运"], "body": "大城旧城坐落在河流围合的岛上，水路有助于理解它作为区域中心的兴起。留存的遗址见证了这里曾经的对外往来。", "source": "ayutthayaHeritage"},
+        {"theme": "地方手艺", "title": "从塔和寺院辨认旧城", "tags": ["大城遗址", "建筑"], "body": "今天仍能从砖砌塔、寺院和高台辨认旧城。不同来源的装饰和建筑手法，也反映出大城与其他地区的交流。", "source": "ayutthayaHeritage"},
+      ],
+    },
   ];
   const atlasState = {
     theme: "全部",
     mode: "地图",
-    level: 0,
-    center: null,
-    place: "",
   };
-  const zoomLevels = [1, 1.7, 2.8, 4.5];
+  const connections = [
+    ["quanzhou", "singapore", "乡音曲艺"],
+    ["xiamen", "melaka", "海洋信俗"],
+    ["georgetown", "melaka", "港口街区"],
+  ];
   const themes = [
     "全部",
     ...unique(places.flatMap((p) => p.cards.map((c) => c.theme))),
@@ -377,358 +437,6 @@
       " ↗</a>"
     );
   };
-  // Small-scale coastline sketch in latitude/longitude. City pins use the same projection.
-  const xy = ([lng, lat]) => [(lng - 93) * 16, (31 - lat) * 12];
-  const coords = (points) =>
-    points
-      .map((p) =>
-        xy(p)
-          .map((n) => n.toFixed(1))
-          .join(","),
-      )
-      .join(" ");
-  const shores = [
-    [
-      [90, 36],
-      [127, 36],
-      [123, 32],
-      [121.2, 31.6],
-      [121.9, 30.9],
-      [121.1, 30.4],
-      [121.5, 29.9],
-      [122, 29.7],
-      [121.5, 28.7],
-      [120.8, 27.9],
-      [120.4, 27.2],
-      [119.8, 26.6],
-      [119.7, 26.1],
-      [119.1, 25.4],
-      [118.8, 25.1],
-      [118.6, 24.8],
-      [118.2, 24.6],
-      [118.1, 24.4],
-      [117.7, 24.2],
-      [117.3, 23.7],
-      [116.7, 23.4],
-      [116.0, 22.8],
-      [115.0, 22.7],
-      [114.4, 22.6],
-      [114.1, 22.3],
-      [113.6, 22.6],
-      [113.5, 22.1],
-      [112.8, 21.9],
-      [111, 21.4],
-      [110.5, 21.2],
-      [110.3, 20.3],
-      [109.9, 20.2],
-      [109.7, 21.3],
-      [108.4, 21.6],
-      [107.8, 21.5],
-      [107, 20.9],
-      [106.7, 20.8],
-      [106.5, 20],
-      [105.7, 19.3],
-      [105.9, 18.4],
-      [106.6, 17.7],
-      [107.7, 16.5],
-      [108.2, 16.2],
-      [108.8, 15.2],
-      [109.3, 13.8],
-      [109.4, 12.5],
-      [109.1, 11.7],
-      [108.4, 11.2],
-      [107.2, 10.7],
-      [106.7, 10.3],
-      [106.3, 9.5],
-      [105.2, 8.7],
-      [104.8, 8.6],
-      [104.8, 9.8],
-      [104.5, 10.4],
-      [103.5, 10.6],
-      [103, 11.5],
-      [102.4, 12.2],
-      [101.9, 12.5],
-      [101.2, 12.7],
-      [100.9, 13.0],
-      [100.9, 13.5],
-      [100.3, 13.6],
-      [100, 12.5],
-      [99.5, 11.0],
-      [99.2, 10.1],
-      [99.9, 9.3],
-      [100.1, 8.7],
-      [100.4, 7.4],
-      [100.6, 6.9],
-      [101.4, 6.8],
-      [102.2, 6.2],
-      [103.1, 5.3],
-      [103.5, 4.6],
-      [103.4, 3.5],
-      [103.8, 2.4],
-      [104.2, 1.5],
-      [103.6, 1.25],
-      [103.1, 1.8],
-      [102.3, 2.2],
-      [101.4, 2.8],
-      [101.0, 3.4],
-      [100.6, 4.3],
-      [100.3, 5.3],
-      [100.1, 6.2],
-      [99.6, 6.7],
-      [99.3, 7.5],
-      [98.6, 8.2],
-      [98.2, 8.2],
-      [98.5, 9.7],
-      [98.6, 10.6],
-      [99, 11.8],
-      [98.7, 13],
-      [98.2, 14],
-      [97.8, 15.5],
-      [97.5, 16.5],
-      [96.6, 16.6],
-      [95.5, 15.8],
-      [94.5, 16.0],
-      [90, 19],
-    ],
-    [
-      [121.54, 25.3],
-      [121.97, 25.0],
-      [121.83, 24.6],
-      [121.62, 24.1],
-      [121.48, 23.4],
-      [121.1, 22.8],
-      [120.86, 22.3],
-      [120.85, 21.9],
-      [120.55, 22.3],
-      [120.27, 22.7],
-      [120.14, 23.1],
-      [120.08, 23.5],
-      [120.3, 24.05],
-      [120.65, 24.5],
-      [120.96, 25.02],
-    ],
-    [
-      [110.96, 20],
-      [110.4, 20.16],
-      [109.5, 19.95],
-      [108.63, 19.33],
-      [108.71, 18.5],
-      [109.5, 18.2],
-      [110.1, 18.4],
-      [110.65, 19.2],
-    ],
-    [
-      [95.2, 5.8],
-      [96.5, 5.1],
-      [97.5, 5.1],
-      [98.5, 4],
-      [99.5, 3.3],
-      [100.1, 2.4],
-      [101.0, 2],
-      [102.1, 1.4],
-      [102.6, 0.65],
-      [103.6, -0.5],
-      [104.6, -1.0],
-      [104.9, -2.1],
-      [106.1, -2.9],
-      [105.9, -5.8],
-      [104.4, -5.4],
-      [103.2, -4.5],
-      [101.5, -2.6],
-      [100.2, -0.6],
-      [99.1, 1.4],
-      [97.7, 2.7],
-      [96.3, 3.8],
-    ],
-    [
-      [108.9, 0.9],
-      [109.5, 1.9],
-      [110.5, 2],
-      [111.1, 2.7],
-      [112.2, 2.8],
-      [113.0, 3.2],
-      [114.0, 4.2],
-      [114.7, 4.9],
-      [115.5, 5.2],
-      [116.3, 6.1],
-      [117.2, 6.9],
-      [117.8, 6.2],
-      [117.5, 5.7],
-      [118.8, 5.2],
-      [119.3, 5.0],
-      [118.5, 4.2],
-      [117.8, 4.2],
-      [117.6, 3.1],
-      [118.5, 2.1],
-      [117.7, 1.1],
-      [117.5, 0.1],
-      [116.8, -1.1],
-      [116.2, -2.2],
-      [116.1, -3.4],
-      [114.5, -3.8],
-      [113.3, -3.3],
-      [112, -3.5],
-      [110.4, -2.9],
-      [109.7, -1.9],
-      [109.3, -0.8],
-    ],
-    [
-      [120.6, 18.5],
-      [121.5, 18.4],
-      [122.0, 18.6],
-      [122.4, 17.1],
-      [121.9, 16.3],
-      [121.8, 15.3],
-      [121.6, 14.7],
-      [122.8, 14.0],
-      [123.3, 13.8],
-      [124.1, 13.2],
-      [123.5, 12.9],
-      [122.5, 13.5],
-      [121.4, 13.9],
-      [120.7, 13.8],
-      [120.6, 14.3],
-      [120.9, 14.6],
-      [120.1, 14.8],
-      [119.8, 16.1],
-      [120.4, 16.4],
-      [120.3, 17.9],
-    ],
-    [
-      [117.1, 8.5],
-      [117.7, 8.9],
-      [118.3, 9.6],
-      [119.0, 10.3],
-      [119.6, 11.3],
-      [119.3, 11.3],
-      [118.7, 10.6],
-      [118.0, 9.9],
-      [117.4, 9.2],
-    ],
-  ];
-  function frame() {
-    const scale = zoomLevels[atlasState.level],
-      width = 550 / scale,
-      height = 416 / scale;
-    const [cx, cy] = atlasState.center || [275, 208];
-    return {
-      x: Math.max(0, Math.min(550 - width, cx - width / 2)),
-      y: Math.max(0, Math.min(416 - height, cy - height / 2)),
-      width,
-      height,
-      scale,
-    };
-  }
-  function mapGraphic(filtered, selected) {
-    const activeIds = new Set(filtered.map((p) => p.id));
-    const f = frame();
-    const anchors = {
-      quanzhou: [-46, -31],
-      xiamen: [-90, -7],
-      tainan: [37, 24],
-      singapore: [48, 14],
-      melaka: [-49, -11],
-      taipei: [45, -8],
-      hongkong: [-62, 39],
-      georgetown: [26, -24],
-      meizhou: [45, -41],
-      longquan: [-30, -17],
-      chaozhou: [-27, 22],
-      hoian: [44, -13],
-    };
-    const pins = places
-      .map((p) => {
-        const [x, y] = xy(p.coords);
-        if (!activeIds.has(p.id))
-          return `<circle cx="${x}" cy="${y}" r="${3 / f.scale}" fill="#759aa1"/>`;
-        const [dx, dy] = anchors[p.id],
-          width = p.city.length * 14 + 16;
-        return `<a class="ca-svg-pin" href="${linkTo("atlas", p.id)}" aria-label="探索${p.city}" ${p === selected ? 'aria-current="location"' : ""}>
-        <g transform="translate(${x} ${y}) scale(${1 / f.scale})"><path d="M0 0 L${dx} ${dy}" class="ca-pin-leader"/>
-        <circle r="14" fill="transparent"/><circle class="ca-pin-halo" r="8"/><circle class="ca-pin-dot" r="3"/>
-        <rect x="${dx - width / 2}" y="${dy - 12}" width="${width}" height="24" rx="5"/>
-        <text x="${dx}" y="${dy + 4}" text-anchor="middle">${p.city}</text></g></a>`;
-      })
-      .join("");
-    const routes = [
-      ["quanzhou", "singapore", "乡音曲艺", 45],
-      ["xiamen", "melaka", "海洋信俗", -27],
-      ["georgetown", "melaka", "港口街区", 12],
-    ]
-      .filter(
-        ([a, b, t]) =>
-          activeIds.has(a) &&
-          activeIds.has(b) &&
-          (atlasState.theme === "全部" || atlasState.theme === t),
-      )
-      .map(([a, b, , offset]) => {
-        const [ax, ay] = xy(places.find((p) => p.id === a).coords),
-          [bx, by] = xy(places.find((p) => p.id === b).coords);
-        return `<path d="M${ax} ${ay} Q${(ax + bx) / 2 + offset} ${(ay + by) / 2 + offset}, ${bx} ${by}" class="ca-thread"/>`;
-      })
-      .join("");
-    const geography = shores
-      .map(
-        (s) =>
-          `<polygon class="ca-landmass" points="${coords(s)}"/><polygon fill="url(#ca-land)" points="${coords(s)}"/>`,
-      )
-      .join("");
-    return `<svg class="ca-map" tabindex="0" data-zoomed="${!!atlasState.level}" viewBox="${f.x} ${f.y} ${f.width} ${f.height}" aria-label="东亚与东南亚文化地点示意图，放大后可拖动或按方向键平移">
-      <defs><pattern id="ca-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#58818c" stroke-width=".45"/></pattern>
-      <pattern id="ca-land" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M1 8l2-1" stroke="#7ca99f" stroke-width=".55"/></pattern></defs>
-      <rect width="550" height="416" fill="#123441"/><rect width="550" height="416" fill="url(#ca-grid)"/>
-      ${geography}<g class="ca-sea-label" fill="#aac1bf" text-anchor="middle"><text x="333" y="267">南 海</text><text x="510" y="151">东 海</text></g>${routes}${pins}</svg>`;
-  }
-  function mapTools() {
-    const z = atlasState.level;
-    return `<div class="ca-tools" aria-label="地图缩放"><button type="button" data-ca-zoom="out" aria-label="缩小地图" ${z ? "" : "disabled"}>−</button><output>${Math.round(zoomLevels[z] * 100)}%</output><button type="button" data-ca-zoom="in" aria-label="放大地图" ${z === zoomLevels.length - 1 ? "disabled" : ""}>＋</button><button type="button" data-ca-zoom="reset" aria-label="恢复地图全景">全景</button></div>`;
-  }
-  function panTo(svg, x, y) {
-    atlasState.center = [x, y];
-    const f = frame();
-    atlasState.center = [f.x + f.width / 2, f.y + f.height / 2];
-    svg.setAttribute("viewBox", [f.x, f.y, f.width, f.height].join(" "));
-  }
-  document.addEventListener("pointerdown", (event) => {
-    const svg = event.target.closest('.ca-map[data-zoomed="true"]');
-    if (!svg || event.target.closest("a") || event.button !== 0) return;
-    const f = frame(),
-      transform = svg.getScreenCTM();
-    if (!transform) return;
-    const { clientX, clientY, pointerId } = event;
-    svg.setPointerCapture(pointerId);
-    const move = (e) => {
-      if (e.pointerId === pointerId)
-        panTo(
-          svg,
-          f.x + f.width / 2 - (e.clientX - clientX) / transform.a,
-          f.y + f.height / 2 - (e.clientY - clientY) / transform.d,
-        );
-    };
-    svg.addEventListener("pointermove", move);
-    svg.addEventListener(
-      "lostpointercapture",
-      () => svg.removeEventListener("pointermove", move),
-      { once: true },
-    );
-  });
-  document.addEventListener("keydown", (event) => {
-    if (!event.target.matches('.ca-map[data-zoomed="true"]')) return;
-    const step = {
-      ArrowLeft: [-1, 0],
-      ArrowRight: [1, 0],
-      ArrowUp: [0, -1],
-      ArrowDown: [0, 1],
-    }[event.key];
-    if (!step) return;
-    event.preventDefault();
-    const f = frame();
-    panTo(
-      event.target,
-      f.x + f.width * (0.5 + step[0] * 0.12),
-      f.y + f.height * (0.5 + step[1] * 0.12),
-    );
-  });
   function themeChips() {
     return (
       '<div class="ca-tabs" role="group" aria-label="地图主题">' +
@@ -826,61 +534,146 @@
       "</section>"
     );
   }
-  function atlas(id) {
-    const requested = places.find((p) => p.id === id);
-    if (requested && !available().some((p) => p.id === id))
-      atlasState.theme = "全部";
+  let mapView;
+  const mapMessages = {
+    loading: "正在加载高德地图…",
+    missing: "尚未配置高德地图的 Web 端 Key 和安全密钥。",
+    service: "高德地图接口尚未启动。请重启项目后重试。",
+    authorization: "高德地图授权失败。请检查 Web 端 Key、安全密钥和域名白名单。",
+    unavailable: "高德地图暂时无法加载，请稍后重试。",
+  };
+
+  function showMapStatus(chart, status) {
+    const notice = chart.querySelector(".ca-map-status");
+    const ready = status === "ready";
+    const unavailable = !ready && status !== "loading";
+    chart.dataset.mapState = status;
+    chart.classList.toggle("ca-map-unavailable", unavailable);
+    chart.nextElementSibling.hidden = chart.hidden || !ready;
+    notice.hidden = ready;
+    notice.querySelector("p").textContent = mapMessages[status] || "";
+    notice.querySelector(".ca-map-tools").hidden = status === "loading";
+    chart.querySelector("[data-ca-map-controls]").hidden = !ready;
+    if (unavailable) chart.querySelector("iframe")?.remove();
+  }
+
+  function sendMapView(frame) {
+    if (!frame?.contentWindow || !mapView) return;
+    const translate = window.translateSiteLabel || ((label) => label);
+    frame.contentWindow.postMessage(
+      {
+        ...mapView,
+        places: mapView.places.map((place) => ({ ...place, city: translate(place.city) })),
+      },
+      location.origin,
+    );
+  }
+
+  window.addEventListener("sea:language-changed", () =>
+    sendMapView(document.querySelector(".ca-chart iframe")),
+  );
+
+  function loadMap(chart) {
+    chart.querySelector("iframe")?.remove();
+    showMapStatus(chart, "loading");
+    const frame = document.createElement("iframe");
+    frame.title = "高德地图 · 文化地点";
+    frame.src = "/atlas-map.html";
+    frame.addEventListener("load", () => sendMapView(frame));
+    chart.prepend(frame);
+  }
+
+  window.addEventListener("message", (event) => {
+    if (event.origin !== location.origin) return;
+    const chart = document.querySelector(".ca-chart");
+    const frame = chart?.querySelector("iframe");
+    if (!frame || event.source !== frame.contentWindow) return;
+    if (event.data?.type === "atlas-map-status") {
+      const { status } = event.data;
+      if (status === "ready" || Object.hasOwn(mapMessages, status))
+        showMapStatus(chart, status);
+    }
+    if (
+      event.data?.type === "atlas-map-select" &&
+      !chart.hidden &&
+      available().some((place) => place.id === event.data.id)
+    ) {
+      app().go("atlas/" + event.data.id);
+    }
+  });
+
+  function atlas(root, id) {
+    const requested = places.find((place) => place.id === id);
+    if (requested && !available().includes(requested)) atlasState.theme = "全部";
     const filtered = available();
     const selected = requested || filtered[0];
-    if (selected.id !== atlasState.place) {
-      atlasState.center = xy(selected.coords);
-      atlasState.place = selected.id;
+
+    // Preserve the map document and its viewport when browsing cultural stops.
+    if (!root.querySelector(".ca-atlas")) {
+      root.innerHTML = `<div class="ca-atlas">
+        <header class="page-head"><div><h1>数字文化地图</h1><p>循着乡音、节俗与餐桌，探索一座城市，再读一封当地的信。</p></div></header>
+        ${themeChips()}
+        <div class="ca-spread">
+          <div><section class="ca-map-panel">
+            <div class="ca-map-heading"><h2>文化地点</h2><div class="ca-toggle">
+              <button type="button" data-ca-mode="地图">地图</button>
+              <button type="button" data-ca-mode="列表">列表</button>
+            </div></div>
+            <div class="ca-chart">
+              <div class="ca-map-status">
+                <p role="status"></p>
+                <div class="ca-map-tools" hidden>
+                  <button type="button" data-ca-map-action="retry">重新加载</button>
+                  <button type="button" data-ca-mode="列表">切换到列表</button>
+                </div>
+              </div>
+              <div class="ca-map-tools" data-ca-map-controls aria-label="地图操作" hidden>
+                <button type="button" data-ca-map-action="out" aria-label="缩小地图">−</button>
+                <button type="button" data-ca-map-action="in" aria-label="放大地图">＋</button>
+                <button type="button" data-ca-map-action="overview">全景</button>
+              </div>
+            </div>
+            <p class="ca-caption">虚线连接共享文化传统的地点。点选地标可查看当地文化与来信。</p>
+            <div class="ca-stop-list"></div>
+          </section></div>
+          <div class="ca-place-details"></div>
+        </div>
+      </div>`;
     }
-    const locationList =
-      '<div class="ca-stop-list">' +
-      filtered
-        .map(
-          (p) =>
-            '<a href="' +
-            linkTo("atlas", p.id) +
-            '" ' +
-            (p === selected ? 'aria-current="location"' : "") +
-            "><span>" +
-            esc(p.city) +
-            "</span><small>" +
-            esc(p.area) +
-            "</small></a>",
-        )
-        .join("") +
-      "</div>";
-    return (
-      '<div class="ca-atlas"><header class="page-head"><div><h1>数字文化地图</h1><p>循着乡音、节俗与餐桌，探索一座城市，再读一封当地的信。</p></div></header>' +
-      themeChips() +
-      '<div class="ca-spread"><div><section class="ca-map-panel"><div class="ca-map-heading"><h2>文化地点</h2><div class="ca-toggle">' +
-      ["地图", "列表"]
-        .map(
-          (m) =>
-            '<button type="button" data-ca-mode="' +
-            m +
-            '" aria-pressed="' +
-            (atlasState.mode === m) +
-            '">' +
-            m +
-            "</button>",
-        )
-        .join("") +
-      "</div></div>" +
-      (atlasState.mode === "地图"
-        ? '<div class="ca-chart">' +
-          mapGraphic(filtered, selected) +
-          mapTools() +
-          '</div><p class="ca-caption">虚线连接共享文化传统的地点。选择地标可查看当地文化与来信。</p>'
-        : "") +
-      locationList +
-      "</section></div><div>" +
-      placeDetails(selected) +
-      "</div></div></div>"
+
+    root.querySelectorAll(".ca-tabs button").forEach((button) =>
+      button.setAttribute("aria-pressed", button.dataset.caTheme === atlasState.theme),
     );
+    root.querySelectorAll(".ca-toggle button").forEach((button) =>
+      button.setAttribute("aria-pressed", button.dataset.caMode === atlasState.mode),
+    );
+    root.querySelector(".ca-stop-list").innerHTML = filtered
+      .map((place) => `<a href="${linkTo("atlas", place.id)}" ${place === selected ? 'aria-current="location"' : ""}><span>${esc(place.city)}</span><small>${esc(place.area)}</small></a>`)
+      .join("");
+    root.querySelector(".ca-place-details").innerHTML = placeDetails(selected);
+
+    const chart = root.querySelector(".ca-chart");
+    chart.hidden = atlasState.mode !== "地图";
+    root.querySelector(".ca-caption").hidden = chart.hidden || chart.dataset.mapState !== "ready";
+    if (!chart.hidden) {
+      const activePlaces = new Set(filtered.map((place) => place.id));
+      mapView = {
+        type: "atlas-map-view",
+        theme: atlasState.theme,
+        selected: selected.id,
+        focusPlace: Boolean(requested),
+        places: filtered.map(({ id, city }) => ({ id, city })),
+        locations: places.map(({ id, coords }) => [id, coords]),
+        lines: connections
+          .filter(([from, to, theme]) =>
+            activePlaces.has(from) && activePlaces.has(to) &&
+            (atlasState.theme === "全部" || atlasState.theme === theme),
+          )
+          .map(([from, to]) => [from, to]),
+      };
+      if (!chart.dataset.mapState) loadMap(chart);
+      else sendMapView(chart.querySelector("iframe"));
+    }
   }
 
   function selectedMarkup(tags) {
@@ -1050,29 +843,16 @@
   }
   document.addEventListener("click", (e) => {
     const b = e.target.closest(
-      "button[data-ca-theme],button[data-ca-mode],button[data-ca-zoom],button[data-ct-remove],button[data-ct-add],button[data-ct-suggest],button[data-ct-candidate]",
+      "button[data-ca-theme],button[data-ca-mode],button[data-ca-map-action],button[data-ct-remove],button[data-ct-add],button[data-ct-suggest],button[data-ct-candidate]",
     );
     if (!b) return;
-    if (b.hasAttribute("data-ca-zoom")) {
-      const action = b.dataset.caZoom;
-      atlasState.level =
-        action === "reset"
-          ? 0
-          : Math.max(
-              0,
-              Math.min(
-                zoomLevels.length - 1,
-                atlasState.level + (action === "in" ? 1 : -1),
-              ),
-            );
-      const place = places.find((p) => p.id === atlasState.place);
-      atlasState.center = xy(place.coords);
-      const panel = b.closest(".ca-chart");
-      panel.innerHTML = mapGraphic(available(), place) + mapTools();
-      (
-        panel.querySelector(`[data-ca-zoom="${action}"]:enabled`) ||
-        panel.querySelector('[data-ca-zoom="reset"]')
-      ).focus({ preventScroll: true });
+    if (b.dataset.caMapAction) {
+      const chart = b.closest(".ca-chart");
+      if (b.dataset.caMapAction === "retry") loadMap(chart);
+      else chart.querySelector("iframe")?.contentWindow?.postMessage(
+        { type: "atlas-map-control", action: b.dataset.caMapAction },
+        location.origin,
+      );
       return;
     }
     if (b.hasAttribute("data-ca-theme")) {
@@ -1085,6 +865,9 @@
     if (b.hasAttribute("data-ca-mode")) {
       atlasState.mode = b.dataset.caMode;
       app().render();
+      if (!b.closest(".ca-toggle")) {
+        document.querySelector(".ca-toggle [aria-pressed='true']")?.focus();
+      }
       return;
     }
     const box = b.closest(".ct-editor");

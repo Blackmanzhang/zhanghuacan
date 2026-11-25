@@ -6,6 +6,7 @@ from contextlib import closing
 from pathlib import Path
 from unittest.mock import patch
 
+import collection_additions
 import collection_seeds
 import moon_workshop
 import server
@@ -24,11 +25,16 @@ class CollectionSamplesTest(unittest.TestCase):
                 FROM letters l JOIN users u ON u.id=l.author""")}
             new = [letters["sample_" + seed.key] for seed in collection_seeds.LETTERS]
             self.assertEqual(len(new), 26)
-            self.assertEqual(len({l["region"] for l in letters.values()}), 21)
+            additions = [letters["sample_" + seed.key] for seed in collection_additions.LETTERS]
+            self.assertEqual(len(additions), 24)
+            self.assertEqual(len({l["region"] for l in letters.values()}), 26)
             self.assertEqual(sum(l["parent_id"] is None for l in new), 9)
+            self.assertEqual(sum(l["parent_id"] is None for l in additions), 8)
+            self.assertEqual(sum(l["parent_id"] in {a["id"] for a in additions}
+                                 for l in additions), 16)
             quoted = [l for l in new if l["quote_text"]]
             self.assertGreaterEqual(len(quoted), 6)
-            for letter in new:
+            for letter in new + additions:
                 self.assertTrue(letter["demo"] and letter["exhibit"] and letter["is_open"])
                 self.assertEqual(letter["status"], "published")
                 self.assertTrue(server.regional(letter["region"])[0])
@@ -40,8 +46,12 @@ class CollectionSamplesTest(unittest.TestCase):
                         self.assertIn(letter["quote_text"], parent["body"])
             workshop = moon_workshop.view(db, "visitor")
             panels = {p["id"]: p for p in workshop["panels"]}
-            self.assertEqual(sum(p["current"] is not None for p in panels.values()), 4)
-            for key in ("m3", "m5"):
+            self.assertEqual(len(panels), 10)
+            self.assertEqual(sum(p["current"] is not None for p in panels.values()), 6)
+            for key in ("m9", "m10"):
+                self.assertIsNone(panels[key]["current"])
+                self.assertFalse(panels[key]["versions"])
+            for key in ("m3", "m5", "m7", "m8"):
                 versions = panels[key]["versions"]
                 self.assertEqual(len(versions), 2)
                 self.assertEqual(versions[1]["baseId"], versions[0]["id"])

@@ -131,7 +131,7 @@
       type: "语言",
       source: "opera",
       blurb:
-        "在粤剧中，表演者用粤语唱曲和念白。在乡音馆里也能逐字聆听粤语的日常词音。",
+        "在粤剧中，表演者用粤语唱曲和念白。在乡音展馆里也能逐字聆听粤语的日常词音。",
       terms: ["粵語", "广东话", "廣東話"],
     },
     mazu: {
@@ -270,6 +270,90 @@
       blurb:
         "农历正月十五的节日，在台南盐水与蜂炮、巡境相连。可循着「元宵」查阅公开来信中各自的过节记忆。",
       terms: ["元宵节", "元宵節"],
+    },
+    macau: {
+      label: "澳门",
+      type: "地点",
+      source: "macauHeritage",
+      blurb: "澳门历史城区的街巷与广场把不同背景的建筑连在一起。它们也留下了早期海上贸易和文化接触的迹象。",
+      terms: ["澳門", "Macao"],
+    },
+    kaiping: {
+      label: "开平",
+      type: "地点",
+      source: "diaolou",
+      blurb: "开平村落中的碉楼记录了地方营造传统，以及海外侨民与故乡的持续联系。",
+      terms: ["開平", "Kaiping"],
+    },
+    hue: {
+      label: "顺化",
+      type: "地点",
+      source: "hueHeritage",
+      blurb: "顺化旧都围绕香江展开，宫城、寺庙和陵寝共同构成古迹群。",
+      terms: ["順化", "Huế"],
+    },
+    ayutthaya: {
+      label: "大城",
+      type: "地点",
+      source: "ayutthayaHeritage",
+      blurb: "泰国大城的历史城区由河流环绕，遗存包括砖塔和寺院。",
+      terms: ["阿瑜陀耶", "Ayutthaya"],
+    },
+    macaocentre: {
+      label: "澳门历史城区",
+      type: "街区",
+      source: "macauHeritage",
+      blurb: "历史街区中的广场、庙宇和教堂共同记录了这一海上贸易城市的多种建筑传统。",
+      terms: ["澳門歷史城區"],
+    },
+    kaipingdiaolou: {
+      label: "开平碉楼",
+      type: "建筑",
+      source: "diaolou",
+      blurb: "多层的防御性建筑是开平侨乡有代表性的遗存，建筑表现出中外营造手法的交融。",
+      terms: ["開平碉樓", "碉楼"],
+    },
+    huecomplex: {
+      label: "顺化古迹群",
+      type: "建筑",
+      source: "hueHeritage",
+      blurb: "古迹群包括都城、宗教建筑和陵寝。沿香江及周边山水，可以理解这组遗产的布局。",
+      terms: ["順化古蹟群", "香江"],
+    },
+    ayutthayaruins: {
+      label: "大城遗址",
+      type: "建筑",
+      source: "ayutthayaHeritage",
+      blurb: "留存的塔与寺院见证了大城的发展。旧都的位置也显示了河流在城市格局中的作用。",
+      terms: ["大城遺址"],
+    },
+    gulanyu: {
+      label: "鼓浪屿",
+      type: "街区",
+      source: "kulangsu",
+      blurb: "厦门对岸的岛屿，保存闽南民居、西式建筑和不同风格交融的近代遗存。",
+      terms: ["鼓浪嶼", "Kulangsu"],
+    },
+    quanzhouports: {
+      label: "宋元泉州",
+      type: "街区",
+      source: "quanzhouHeritage",
+      blurb: "泉州的码头、桥梁、生产作坊与文化遗址共同呈现了宋元时期的海上商贸网络。",
+      terms: ["洛阳桥", "泉州港", "宋元海丝"],
+    },
+    botanicgarden: {
+      label: "新加坡植物园",
+      type: "街区",
+      source: "botanic",
+      blurb: "植物园见证热带植物引种、园艺和研究的发展。园区保存着不同阶段的景观和研究设施。",
+      terms: ["新加坡植物園"],
+    },
+    straitsshophouses: {
+      label: "海峡店屋",
+      type: "建筑",
+      source: "straits",
+      blurb: "马六甲和乔治市保存了不同年代的店屋。作为典型街区建筑，店屋连接了沿街经营与日常居住。",
+      terms: ["海峽店屋", "店屋", "shophouse"],
     },
   };
   // Each sentence is directional. The reverse label lets the same evidence be read from either entity.
@@ -539,6 +623,22 @@
       "enamel",
       "传统配釉与烧成火候共同决定龙泉青瓷的釉色。",
     ],
+    ["macau", "macaocentre", "包含遗产", "位于", "macauHeritage", "澳门旧城中的多个广场和建筑群共同构成历史城区遗产。"],
+    ["kaiping", "kaipingdiaolou", "保有建筑", "分布于", "diaolou", "碉楼分布于开平村落，反映防御需要和侨乡文化。"],
+    ["hue", "huecomplex", "包含遗产", "位于", "hueHeritage", "历代宫城及城外陵寝构成顺化古迹群。"],
+    ["ayutthaya", "ayutthayaruins", "保有遗址", "位于", "ayutthayaHeritage", "大城历史遗存包括砖塔、寺院和其他旧都建筑。"],
+    ["xiamen", "gulanyu", "包含街区", "毗邻", "kulangsu", "鼓浪屿位于厦门对岸，沿海港形成交流。"],
+    ["quanzhou", "quanzhouports", "包含遗产", "位于", "quanzhouHeritage", "这一系列遗址呈现了泉州商贸中心的城市结构。"],
+    ["singapore", "botanicgarden", "包含遗产", "位于", "botanic", "新加坡植物园是认识热带植物引种和研究的一处遗产地。"],
+    ["melaka", "straitsshophouses", "保留建筑", "见于", "straits", "马六甲的历史街区保存了沿街店屋。"],
+    ["georgetown", "straitsshophouses", "保留建筑", "见于", "straits", "乔治市的遗产包括成片店屋和多样的贸易街区建筑。"],
+    ["macaocentre", "gulanyu", "对照阅读", "对照阅读", "kulangsu", "鼓浪屿的近代风格融合可与澳门历史城区的中西建筑并置观察。"],
+    ["hoian", "hue", "越南中部", "越南中部", "hueHeritage", "两处均在越南中部，顺化保存旧都遗存，会安保有历史商港街道。"],
+    ["kaipingdiaolou", "macaocentre", "比较建筑", "比较建筑", "diaolou", "两处均可观察不同来源的建筑手法。开平碉楼尤其反映海外侨民与村落的联系。"],
+    ["quanzhouports", "hoian", "对照港史", "对照港史", "quanzhouHeritage", "泉州的宋元海贸遗址可与会安古城的历史商港街屋对照阅读。"],
+    ["straitsshophouses", "hoian", "比较街屋", "比较街屋", "hoian", "会安与海峡古城都可从沿街房屋理解古港经营和居住空间。"],
+    ["ayutthayaruins", "huecomplex", "比较旧都", "比较旧都", "ayutthayaHeritage", "大城与顺化均有昔日都城遗址，河流与不同布局的古建筑可以对照阅读。"],
+    ["kaiping", "macau", "珠江口周边", "珠江口周边", "diaolou", "开平侨乡和澳门旧港可作为阅读珠江口周边跨海往来的两个不同入口。"],
   ];
   const palette = {
     街区: "#a1d0de",
@@ -575,39 +675,13 @@
     const [name, url] = window.cultureViews.sources[key];
     return `<a class="kg-source" href="${url}" target="_blank" rel="noopener noreferrer">${name} ↗</a>`;
   }
-  function graph(id, neighbors) {
-    const cx = 255,
-      cy = 166,
-      n = neighbors.length;
-    const rays = [],
-      satellites = [];
-    neighbors.forEach(({ other, label }, i) => {
-      const angle =
-        n === 1
-          ? -0.28
-          : n === 2
-            ? -0.33 + i * Math.PI
-            : -Math.PI / 2 + (2 * Math.PI * i) / n + 0.18;
-      const dx = 171 * Math.cos(angle),
-        dy = 106 * Math.sin(angle);
-      const x = cx + dx,
-        y = cy + dy,
-        lw = label.length * 11 + 12;
-      rays.push(
-        `<path d="M${cx} ${cy} L${x} ${y}"/><g transform="translate(${cx + dx * 0.57} ${cy + dy * 0.57})"><rect x="${-lw / 2}" y="-9" width="${lw}" height="18" rx="7"/><text y="4">${label}</text></g>`,
-      );
-      const item = nodes[other],
-        w = Math.max(78, item.label.length * 15 + 26);
-      satellites.push(`<a href="${link(other)}" class="kg-satellite" aria-label="${label}，${item.label}，展开关系" style="--kg-tone:${palette[item.type]}"><g transform="translate(${x} ${y})">
-        <rect x="${-w / 2}" y="-21" width="${w}" height="42" rx="15"/><text y="5">${item.label}</text></g></a>`);
-    });
-    const title = nodes[id].label,
-      rw = Math.max(44, title.length * 9 + 13);
-    return `<svg class="kg-graph" viewBox="0 0 510 330" aria-label="${title}的文化关系，选择外围节点继续探索">
-      <defs><pattern id="kg-stipple" width="21" height="21" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#567f88"/></pattern></defs>
-      <rect width="510" height="330" fill="url(#kg-stipple)"/><g class="kg-orbits"><ellipse cx="${cx}" cy="${cy}" rx="188" ry="115"/><ellipse cx="${cx}" cy="${cy}" rx="107" ry="66"/></g>
-      <g class="kg-rays">${rays.join("")}</g>${satellites.join("")}<g class="kg-core" transform="translate(${cx} ${cy})" style="--kg-tone:${palette[nodes[id].type]}">
-      <ellipse rx="${rw + 8}" ry="42"/><ellipse rx="${rw}" ry="34"/><text y="6">${title}</text></g></svg>`;
+  function graph(id) {
+    return `<div class="kg-sphere" tabindex="0" role="group" aria-label="文化关系球，拖动或用方向键旋转">
+      <canvas aria-hidden="true"></canvas>
+      <div class="kg-nodes">${Object.entries(nodes).map(([key, node]) =>
+        `<a class="kg-node" href="${link(key)}" data-kg-node="${key}" ${key === id ? 'aria-current="true"' : ""} style="--kg-tone:${palette[node.type]}"><span>${esc(node.label)}</span></a>`
+      ).join("")}</div>
+    </div>`;
   }
   function matchedLetters(id) {
     const node = nodes[id],
@@ -661,8 +735,8 @@
     const item = nodes[id],
       near = relations(id);
     return `<div class="kg-page" data-kg-id="${id}"><header class="page-head"><div><h1>文化知识图谱</h1><p>选一个文化词条，沿连线探索它与地点、乐器和节俗的关系。</p></div></header>
-      <div class="kg-layout"><div><section class="kg-chart"><header><h2>${item.label}的关系图</h2><small>${near.length} 条直接关系</small></header>${graph(id, near)}
-      <div class="kg-chart-foot"><span class="kg-key"></span>当前词条 <span>点击相邻词条继续展开 ↗</span></div></section>
+      <div class="kg-layout"><div><section class="kg-chart"><header><h2>${item.label}的关系图</h2><small>${near.length} 条直接关系</small></header>${graph(id)}
+      <div class="kg-chart-foot"><span class="kg-key"></span>当前词条 <span>拖动旋转 · 点选节点探索</span><button type="button" data-kg-center>定位当前词条</button></div></section>
       <section class="kg-index"><h2>词条索引</h2><div class="kg-fields"><input type="search" data-kg-search placeholder="搜索词条，如「元宵」" aria-label="搜索文化词条"><select data-kg-kind aria-label="词条类别"><option value="">全部类别</option>${Object.keys(
         palette,
       )
@@ -671,7 +745,7 @@
       <nav data-kg-results aria-label="文化词条" aria-live="polite">${indexResults(id, "", "")}</nav></section></div>
       <article class="kg-card"><header><small>${item.type}</small><h2>${item.label}</h2><p>${item.blurb}</p>${sourceLink(item.source)}</header>
       <section class="kg-evidence"><h3>关系与出处</h3><ul>${near.map(({ other, label, note, source }) => `<li><div><span>${label}</span><a href="${link(other)}">${nodes[other].label} →</a></div><p>${note}</p>${sourceLink(source)}</li>`).join("")}</ul></section>
-      ${matchedLetters(id)}${audioForNode[id] ? `<a class="kg-map-link" href="#sounds/${audioForNode[id][0]}">去乡音馆听${audioForNode[id][1]} →</a>` : ""}${item.type === "地点" ? `<a class="kg-map-link" href="#atlas/${id}">在文化地图中查看${item.label} →</a>` : ""}</article></div></div>`;
+      ${matchedLetters(id)}${audioForNode[id] ? `<a class="kg-map-link" href="#sounds/${audioForNode[id][0]}">去乡音展馆听${audioForNode[id][1]} →</a>` : ""}${item.type === "地点" ? `<a class="kg-map-link" href="#atlas/${id}">在文化地图中查看${item.label} →</a>` : ""}</article></div></div>`;
   }
   function refreshIndex(target) {
     const root = target.closest(".kg-page");
@@ -688,5 +762,16 @@
   document.addEventListener("change", (e) => {
     if (e.target.matches("[data-kg-kind]")) refreshIndex(e.target);
   });
-  window.knowledgeGraph = { view };
+  let dispose;
+  let previousView;
+  function unmount(preserveView) {
+    const pose = dispose?.();
+    dispose = undefined;
+    previousView = preserveView ? pose : undefined;
+  }
+  function mount() {
+    const stage = document.querySelector(".kg-sphere");
+    dispose = window.mountKnowledgeSphere(stage, edges, previousView);
+  }
+  window.knowledgeGraph = { view, mount, unmount };
 })();

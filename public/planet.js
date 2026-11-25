@@ -11,6 +11,9 @@
     马来西亚乔治市: [100.34, 5.42, "乔治市"],
     马来西亚马六甲: [102.25, 2.2, "马六甲"],
     越南会安: [108.33, 15.88, "会安"],
+    广东开平: [112.69, 22.36, "开平"],
+    越南顺化: [107.58, 16.47, "顺化"],
+    泰国大城: [100.56, 14.35, "大城"],
     浙江宁波: [121.55, 29.87, "宁波"],
     台湾台南: [120.21, 23.0, "台南"],
     台湾台中: [120.67, 24.15, "台中"],
@@ -72,8 +75,8 @@
     内蒙古: [112, 43.8],
   };
   const rooms = [
-    ["sounds", "数字乡音博物馆", "逐词对听，辨认故乡的声音"],
-    ["workshop", "多人文化创作工坊", "在同一幅画上接续创作"],
+    ["sounds", "乡音展馆", "逐词对听，辨认故乡的声音"],
+    ["workshop", "海上手账", "翻阅不同地区共同写下的记忆"],
     ["atlas", "数字文化地图", "按地点探访习俗与来信"],
     ["knowledge", "文化知识图谱", "沿一条关系发现另一种文化"],
   ];
@@ -124,7 +127,7 @@
   }
   function view() {
     const { places, total, replies } = network();
-    return `<div class="planet-shell"><section class="sky" aria-labelledby="ocean-title"><div class="sky-grid"><div class="sky-copy"><div class="sky-kicker"><i></i> 全球书信网络</div><h1 id="ocean-title">一封信，<br><em>越过山海。</em></h1><p>转动地球，拆开一封远方的来信。<br>从一个人的家乡，抵达另一个人的日常。</p><div class="sky-actions"><button data-action="random">${app.icon("mail", 18)} 随机拾信</button><a href="#write">${app.icon("pen", 16)} 寄一封信</a></div><dl class="sky-stats">${[
+    return `<div class="planet-shell"><section class="sky" aria-labelledby="ocean-title"><div class="sky-grid"><div class="sky-copy"><div class="sky-kicker"><i></i> 全球书信网络</div><h1 id="ocean-title">一封信，<br><em>越过山海。</em></h1><p>转动地球，拆开一封远方的来信。<br>从一个人的家乡，抵达另一个人的日常。</p><div class="sky-actions"><button data-action="random">${app.icon("mail", 21)} 随机拾信</button><a href="#write">${app.icon("pen", 20)} 寄一封信</a></div><dl class="sky-stats">${[
       [places.length, "来信地点"],
       [total, "公开书信"],
       [replies, "跨地接力"],

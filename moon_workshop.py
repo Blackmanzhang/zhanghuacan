@@ -26,6 +26,10 @@ PANELS = [
     ("m4", "一桌家书", "讲讲团聚时你想留住的一种声音。", "boat"),
     ("m5", "隔海望月", "写给远方正在抬头看月亮的那个人。", "wave"),
     ("m6", "把月光寄出", "给下一位加入长卷的伙伴留一句祝福。", "mountain"),
+    ("m7", "港湾夜渡", "画下夜里搭船时，从水上望见的一岸灯光。", "boat"),
+    ("m8", "檐下月色", "记录屋檐、窗框或骑楼投下的一道月影。", "courtyard"),
+    ("m9", "听见团圆", "用图形和文字画出一段想留在中秋夜的声音。", "postdesk"),
+    ("m10", "归舟灯火", "为尚在水面上或归途中的人画一盏灯。", "lantern"),
 ]
 SOURCES = [
     ("moon_qz", None, "qiu", "泉州的中秋，月光落进茶盏里", "福建泉州", "moon",
@@ -61,6 +65,8 @@ CREATE TABLE IF NOT EXISTS review_log (
 
 def migrate(db):
     _migrate_scroll(db)
+    db.executemany("INSERT INTO scroll_panels(id) VALUES(?) ON CONFLICT(id) DO NOTHING",
+                   [(panel[0],) for panel in PANELS])
     collection_seeds.install(db)
 
 
@@ -329,10 +335,10 @@ def mutate(db, user, action, data, field, art_styles):
     return {"ok": True,"id":version_id,"version":number,"status":"pending"}
 
 
-def queue(db):
+def queue(db, *, include_panels=True):
     items = [dict(r) for r in db.execute("""SELECT v.id,'panel' AS kind,v.title,v.body,u.name AS author,
         v.created,v.panel_id AS panelId,v.source_id AS sourceId,v.art,v.version FROM scroll_versions v
-        JOIN users u ON u.id=v.author WHERE v.status='pending'""")]
+        JOIN users u ON u.id=v.author WHERE v.status='pending'""")] if include_panels else []
     if items:
         rows = version_rows(db)
         for item in items:
@@ -356,10 +362,10 @@ def queue(db):
     return sorted(items,key=lambda item:item["created"])
 
 
-def review(db, key, decision, channel, actor):
+def review(db, key, decision, channel, actor, *, include_panels=True):
     if decision not in {"approve","reject"}:
         raise ApiError(400, "请选择有效的审核结果。")
-    v = db.execute("SELECT * FROM scroll_versions WHERE id=?", (key,)).fetchone()
+    v = db.execute("SELECT * FROM scroll_versions WHERE id=?", (key,)).fetchone() if include_panels else None
     if v:
         if v["status"] != "pending":
             raise ApiError(409, "这一版本已处理或撤回。")

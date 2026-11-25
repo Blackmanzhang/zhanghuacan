@@ -84,6 +84,7 @@
       hak: ["sui³¹", "12276"],
       yue: ["seoi2", "eoi/2/seoi2"],
     },
+    ...window.soundCollection,
   ];
   const creditNan = "教育部《臺灣台語常用詞辭典》";
   const themes = {
@@ -161,6 +162,7 @@
             id: `${type}-${entry.key}`,
             key: entry.key,
             title: entry.word,
+            theme: entry.theme || themes[entry.key],
             text: entry.original,
             reading,
             speaker: isYue ? "发音人 kt" : "辞典词目示范音",
@@ -188,6 +190,8 @@
         }),
       ),
   ];
+  const pageSize = 24;
+  let shown = pageSize;
   let wordKey = "morning",
     region = "",
     language = "",
@@ -292,7 +296,17 @@
   function compare() {
     const word = words.find((item) => item.key === wordKey);
     const morning = word.key === "morning";
-    return `<div class="sm-compare-heading"><div><h2>${morning ? "同一句早安，两种乡音" : "同一个字，听三种乡音"}</h2><p>选一句问候或一个字，点播放键对听。</p></div><div class="sm-words" aria-label="选择对听词">${words.map((w) => `<button type="button" data-sm-word="${w.key}" aria-pressed="${w.key === wordKey}">${w.word}</button>`).join("")}</div></div>
+    const quick = words.slice(0, 11);
+    if (!quick.includes(word)) quick.push(word);
+    const groups = [...new Set(words.map((entry) => entry.theme || themes[entry.key]))];
+    const picker = `<label class="sm-word-picker">全部对听词<select data-sm-word-picker>${
+      groups.map((group) => `<optgroup label="${esc(group)}">${
+        words.filter((entry) => (entry.theme || themes[entry.key]) === group)
+          .map((entry) => `<option value="${entry.key}" ${entry === word ? "selected" : ""}>${esc(entry.word)}</option>`)
+          .join("")
+      }</optgroup>`).join("")
+    }</select></label>`;
+    return `<div class="sm-compare-heading"><div><h2>${morning ? "同一句早安，两种乡音" : "同一个字，听三种乡音"}</h2><p>选一句问候或一个字，点播放键对听。</p></div><div class="sm-words" aria-label="选择对听词">${quick.map((w) => `<button type="button" data-sm-word="${w.key}" aria-pressed="${w.key === wordKey}">${w.word}</button>`).join("")}${picker}</div></div>
       <div class="sm-trio ${morning ? "sm-duo" : ""}">${recordings
         .filter((item) => item.key === word.key)
         .map(
@@ -323,6 +337,7 @@
     );
     return `<p class="sm-count" aria-live="polite">${filtered.length} 段录音</p>${
       filtered
+        .slice(0, shown)
         .map(
           (item) => `<article class="sm-row">
       ${toggle(item)}<a class="sm-rowname" href="${link(item)}"><strong>${esc(item.title)}</strong><span>${esc(item.reading || item.credit)}</span></a>
@@ -331,13 +346,13 @@
         )
         .join("") ||
       `<div class="sm-empty">这个组合暂时没有录音。<button type="button" data-sm-reset>查看全部</button></div>`
-    }`;
+    }${filtered.length > shown ? '<div class="sm-more"><button type="button" class="btn compact" data-sm-more>显示更多录音</button></div>' : ""}`;
   }
   function filter(label, id, values, selected) {
     return `<label>${label}<select data-sm-filter="${id}"><option value="">全部${label}</option>${[...new Set(values)].map((v) => `<option value="${esc(v)}" ${v === selected ? "selected" : ""}>${esc(v)}</option>`).join("")}</select></label>`;
   }
   function detail(item) {
-    return `<a class="sm-back" href="#sounds">${icon("back", 16)} 回到乡音馆</a>
+    return `<a class="sm-back" href="#sounds">${icon("back", 16)} 回到乡音展馆</a>
       <section class="sm-detail"><div class="sm-label">乡音馆藏 · ${item.post ? "声音来信" : "词音原档"}</div>
       <h1>${esc(item.title)}</h1><p>${esc(item.region)}　/　${esc(item.language)}　/　${esc(themeOf(item))}</p>
       <div class="sm-detail-player">${toggle(item)}<div><strong>${esc(item.reading || "听这封信")}</strong><input aria-label="录音播放进度" data-sm-seek type="range" min="0" max="1" step=".01" value="0" disabled></div></div></section>
@@ -361,8 +376,8 @@
     if (!all.some((item) => themeOf(item) === theme)) theme = "";
     const message = `<p class="sm-message" data-sm-message role="status"></p>`;
     if (id)
-      return `<div class="sm-museum">${selected ? detail(selected) : `<div class="sm-notes"><h1>这段录音暂未展出</h1><a href="#sounds">回到乡音馆</a></div>`}${message}</div>`;
-    return `<div class="sm-museum"><header class="sm-hero"><div class="sm-hero-text"><div class="sm-label">${icon("waves", 20)} 声音典藏</div><h1>数字乡音博物馆</h1><p>从一句「早安」开始，听问候和海边的日常。</p></div><div class="sm-deck" aria-hidden="true"><div class="sm-vinyl"><div class="sm-center"><i></i></div></div><div class="sm-tonearm"></div></div></header>
+      return `<div class="sm-museum">${selected ? detail(selected) : `<div class="sm-notes"><h1>这段录音暂未展出</h1><a href="#sounds">回到乡音展馆</a></div>`}${message}</div>`;
+    return `<div class="sm-museum"><header class="page-head"><div><h1>乡音展馆</h1><p>从一句「早安」开始，听问候和海边的日常。</p></div></header>
       ${message}<section class="sm-compare" data-sm-compare>${compare()}</section>
       <section class="sm-archive"><div class="sm-archive-head"><h2>声音馆藏</h2><div class="sm-filters">${filter(
         "地域",
@@ -380,6 +395,13 @@
     const root = document.querySelector(".sm-museum");
     if (!root || root.dataset.smReady) return;
     root.dataset.smReady = "true";
+    function selectWord(key, focusSelector) {
+      stop();
+      wordKey = key;
+      root.querySelector("[data-sm-compare]").innerHTML = compare();
+      root.querySelector(focusSelector)?.focus({ preventScroll: true });
+      sync(root);
+    }
     root.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
@@ -389,24 +411,31 @@
           library().find((item) => item.id === b.dataset.smPlay),
         );
       if (b.hasAttribute("data-sm-word")) {
-        stop();
-        wordKey = b.dataset.smWord;
-        root.querySelector("[data-sm-compare]").innerHTML = compare();
-        root
-          .querySelector(`[data-sm-word="${wordKey}"]`)
-          .focus({ preventScroll: true });
+        selectWord(b.dataset.smWord, `[data-sm-word="${b.dataset.smWord}"]`);
+      }
+      if (b.hasAttribute("data-sm-more")) {
+        const firstNew = shown;
+        shown += pageSize;
+        root.querySelector("[data-sm-rows]").innerHTML = rows(library());
+        root.querySelectorAll(".sm-row")[firstNew]?.querySelector(".sm-rowname").focus();
         sync(root);
       }
       if (b.hasAttribute("data-sm-reset")) {
+        shown = pageSize;
         theme = language = region = search = "";
         root.querySelector("[data-sm-search]").value = "";
-        root.querySelectorAll("select").forEach((s) => (s.value = ""));
+        root.querySelectorAll("[data-sm-filter]").forEach((s) => (s.value = ""));
         root.querySelector("[data-sm-rows]").innerHTML = rows(library());
       }
     });
     root.addEventListener("change", (e) => {
+      if (e.target.hasAttribute("data-sm-word-picker")) {
+        selectWord(e.target.value, "[data-sm-word-picker]");
+        return;
+      }
       const f = e.target.dataset.smFilter;
       if (!f) return;
+      shown = pageSize;
       if (f === "region") region = e.target.value;
       if (f === "language") language = e.target.value;
       if (f === "theme") theme = e.target.value;
@@ -416,6 +445,7 @@
     });
     root.addEventListener("input", (e) => {
       if (e.target.hasAttribute("data-sm-search")) {
+        shown = pageSize;
         search = e.target.value;
         root.querySelector("[data-sm-rows]").innerHTML = rows(library());
         sync(root);

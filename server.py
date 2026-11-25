@@ -19,7 +19,11 @@ from http.cookies import SimpleCookie, CookieError
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+import amap_api
+import letter_drafts
+import postome_summary
 import moon_workshop as workshop
+import sea_notebooks as notebooks
 from moon_workshop import ApiError
 
 
@@ -129,14 +133,16 @@ def setup(path):
     path.parent.mkdir(parents=True, exist_ok=True)
     with closing(connect(path)) as db, db:
         db.execute("PRAGMA journal_mode=WAL")
-        db.executescript(SCHEMA + workshop.MIGRATE)
+        db.executescript(SCHEMA + workshop.MIGRATE + notebooks.SCHEMA)
         db.execute("BEGIN IMMEDIATE")
         if "drift" not in {col["name"] for col in db.execute("PRAGMA table_info(letters)")}:
             db.execute("ALTER TABLE letters ADD COLUMN drift TEXT NOT NULL DEFAULT 'free'")
             db.execute("""UPDATE letters SET drift='theme'
                 WHERE id IN ('r2','r5','r6','n2','n4','n6')""")
+        notebooks.install_topics(db)
         if db.execute("SELECT 1 FROM users WHERE demo=1 LIMIT 1").fetchone():
             workshop.migrate(db)
+            notebooks.seed_pages(db)
             return
         db.executemany("INSERT INTO users(id,name,region,demo) VALUES(?,?,?,1)", PEOPLE)
         regions = {p[0]: p[2] for p in PEOPLE}
@@ -148,6 +154,7 @@ def setup(path):
                        (key, parent, author, title, body, regions[author], theme, art, stamp,
                         "theme" if key in {"r2","r5","r6","n2","n4","n6"} else "free"))
         workshop.migrate(db)
+        notebooks.seed_pages(db)
 
 
 def field(data, key, maximum, *, default=None, minimum=1, strip=True):
@@ -183,6 +190,9 @@ REGIONS = {
     "马来西亚乔治市": ("海外","马来西亚乔治市|乔治市|槟城乔治市|georgetown"),
     "马来西亚马六甲": ("海外","马来西亚马六甲|马六甲|melaka|malacca"),
     "越南会安": ("海外","越南会安|会安|hoian|hộian"),
+    "广东开平": ("大陆","广东开平|开平|广东開平|開平|Kaiping"),
+    "越南顺化": ("海外","越南顺化|顺化|越南順化|順化|Huế"),
+    "泰国大城": ("海外","泰国大城|大城|阿瑜陀耶|Ayutthaya"),
 }
 for place in "浙江 广东 江苏 北京 上海 天津 重庆 云南 山东 江西 吉林 安徽 湖北 湖南 河南 河北 海南 黑龙江 辽宁 贵州 四川 广西 青海 山西 陕西 甘肃 宁夏 新疆 西藏 内蒙古".split():
     REGIONS[place] = ("大陆", place)
@@ -224,6 +234,22 @@ def chosen_tags(value):
         if tag.strip() not in tags:
             tags.append(tag.strip())
     return tags
+
+
+def draft_details(data):
+    if not isinstance(data.get("title"), str) or not data["title"].strip():
+        raise ApiError(400, "请先填写信件标题。")
+    title = field(data, "title", 100)
+    theme = field(data, "theme", 30)
+    region = field(data, "region", 30, default="", minimum=0)
+    if region and region != "未公开":
+        region, _ = regional(region)
+        if not region:
+            raise ApiError(400, "请从公开地域建议中选择，或将地域留空。")
+    else:
+        region = ""
+    return {"title": title, "theme": theme, "region": region,
+            "tags": chosen_tags(data.get("tags", []))}
 
 
 def hash_password(value, salt):
@@ -315,8 +341,9 @@ def state(db, user):
         WHERE m.sender=? OR m.recipient=? ORDER BY m.created DESC,m.rowid DESC""", (uid, uid))
     favorites = db.execute("""SELECT f.letter_id FROM favorites f JOIN letters l ON l.id=f.letter_id
         WHERE f.user_id=? AND l.status='published' ORDER BY f.rowid DESC""", (uid,))
-    return {"me": me(user), "regions": list(REGIONS), "letters": public, "inbox": [dict(m) for m in messages],
-            "favorites": [r[0] for r in favorites], "mine": mine, "workshop": workshop.view(db, uid)}
+    return {"me": me(user), "regions": list(REGIONS), "writeAI": letter_drafts.configured(),
+            "letters": public, "inbox": [dict(m) for m in messages],
+            "favorites": [r[0] for r in favorites], "mine": mine}
 
 
 def get_letter(db, letter_id, user_id=None):
@@ -459,7 +486,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", kind)
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store" if self.path.startswith("/api/") else "no-cache")
+        self.send_header("Cache-Control", "no-store" if self.path.startswith(("/api/", amap_api.PROXY_PREFIX)) else "no-cache")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "same-origin")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
@@ -487,7 +514,10 @@ class Handler(BaseHTTPRequestHandler):
     def read_json(self):
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            if not 0 < length <= MAX_REQUEST:
+            limit = 13 * 1024 * 1024 if self.path.split("?", 1)[0] in {
+                "/api/notebooks/draft", "/api/notebooks/submit"
+            } else MAX_REQUEST
+            if not 0 < length <= limit:
                 raise ApiError(413, "提交内容为空或过大。")
             data = json.loads(self.rfile.read(length))
             if not isinstance(data, dict):
@@ -498,8 +528,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def mutate(self, db, path, user, data):
         uid = user["id"]
-        if path.startswith("/api/workshop/"):
-            return workshop.mutate(db, user, path.removeprefix("/api/workshop/"), data, field, ART)
+        if path.startswith("/api/notebooks/"):
+            return notebooks.save(db, user, path.rsplit("/", 1)[1], data, field, parse_media, chosen_tags)
         if path == "/api/letters":
             return write_letter(db, user, data)
         if path == "/api/replies":
@@ -581,9 +611,10 @@ class Handler(BaseHTTPRequestHandler):
             db.execute("DELETE FROM review_sessions WHERE digest=?", (self.old_hash,))
             return {"ok":True}
         if path == "/api/admin/review" and data is not None:
-            return workshop.review(db,field(data,"id",100),field(data,"decision",10),"web",user["id"])
+            key, decision = field(data,"id",100), field(data,"decision",10)
+            return review_content(db, key, decision, "web", user["id"])
         if path == "/api/admin/queue" and data is None:
-            items = workshop.queue(db)
+            items = review_queue(db)
             for item in items:
                 if item["kind"] in {"letter", "report"} and db.execute(
                     "SELECT 1 FROM letter_covers WHERE letter_id=?", (item["id"],)
@@ -597,6 +628,25 @@ class Handler(BaseHTTPRequestHandler):
 
     def api(self, path):
         data = self.read_json() if self.command == "POST" else None
+        if path == "/api/postome/random" and data is not None:
+            self.json(200, postome_summary.random_summary())
+            return
+        if path == "/api/atlas-map-config" and data is None:
+            self.json(200, amap_api.browser_config())
+            return
+        if path == "/api/generate-draft" and data is not None:
+            self.json(200, letter_drafts.generate(draft_details(data)))
+            return
+        if path == "/api/notebooks/generate-draft" and data is not None:
+            notebook_id = field(data, "notebook", 30)
+            theme = next((title for key, title, _, _ in notebooks.TOPICS if key == notebook_id), None)
+            if theme is None:
+                raise ApiError(404, "找不到这本手账。")
+            details = {"title": field(data, "title", 100), "theme": theme,
+                       "region": field(data, "region", 30, minimum=0, default=""),
+                       "tags": chosen_tags(data.get("tags", []))}
+            self.json(200, letter_drafts.generate(details, notebook=True))
+            return
         if path == "/api/suggest-tags" and data is not None:
             from culture_tags import suggest_tags
             try:
@@ -637,8 +687,23 @@ class Handler(BaseHTTPRequestHandler):
                 db.commit()
                 self.send_content(200,row["attachment"],row["mime"])
                 return
+            if data is None and path.startswith(("/api/notebooks/media/", "/api/admin/notebooks/media/")):
+                admin = path.startswith("/api/admin/")
+                if admin:
+                    self.require_local_admin_host()
+                    workshop.check_admin(db, self.old_hash)
+                mime, content = notebooks.media(db, path, user["id"], admin)
+                db.commit()
+                self.send_content(200, content, mime)
+                return
             if path.startswith("/api/admin/"):
                 result = self.moderator(db,user,path,data)
+            elif data is None and path == "/api/notebooks":
+                result = notebooks.library(db, user["id"])
+            elif data is None and path.startswith("/api/notebooks/book/"):
+                result = notebooks.book(db, path.rsplit("/", 1)[1])
+            elif data is None and path.startswith("/api/notebooks/page/"):
+                result = notebooks.detail(db, notebooks.row_for(db, path.rsplit("/", 1)[1]), user["id"])
             elif data is not None:
                 result = self.mutate(db, path, user, data)
             elif path == "/api/state":
@@ -661,7 +726,14 @@ class Handler(BaseHTTPRequestHandler):
     def handle_request(self):
         try:
             self.validate_request()
-            path = unquote(urlsplit(self.path).path)
+            target_url = urlsplit(self.path)
+            path = unquote(target_url.path)
+            if path.startswith(amap_api.PROXY_PREFIX):
+                if self.command != "GET":
+                    raise ApiError(405, "地图服务仅接受 GET 请求。")
+                body, mime = amap_api.proxy(path, target_url.query, self.headers)
+                self.send_content(200, body, mime)
+                return
             if path.startswith("/api/"):
                 self.api(path)
                 return
@@ -690,13 +762,24 @@ class Handler(BaseHTTPRequestHandler):
     do_HEAD = handle_request
 
 
+def review_content(db, key, decision, channel, actor):
+    if key.startswith("nb_"):
+        return notebooks.review(db, key, decision, channel, actor)
+    return workshop.review(db, key, decision, channel, actor, include_panels=False)
+
+
+def review_queue(db):
+    return sorted(workshop.queue(db, include_panels=False) + notebooks.queue(db),
+                  key=lambda item: item["created"])
+
+
 def admin_review(db_path, approve, reject):
     with closing(connect(db_path)) as db, db:
         db.execute("BEGIN IMMEDIATE")
         key = approve or reject
         if not key:
-            print("待审书信、画格投稿与举报")
-            for row in workshop.queue(db):
+            print("待审书信、手账投稿与举报")
+            for row in review_queue(db):
                 print(f"{row['kind']}  {row['id']}  {row['author']}  {row['title']}\n{row['body']}")
                 if row.get("media"):
                     print("附件可使用 review --export-media ID 文件路径 查看。")
@@ -704,7 +787,7 @@ def admin_review(db_path, approve, reject):
                     print("举报理由",row["reason"])
             return
         try:
-            workshop.review(db,key,"approve" if approve else "reject","cli",getpass.getuser())
+            review_content(db, key, "approve" if approve else "reject", "cli", getpass.getuser())
         except ApiError as exc:
             raise SystemExit(str(exc))
         print("已处理", key, flush=True)

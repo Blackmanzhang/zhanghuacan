@@ -1,12 +1,9 @@
 """On-demand label suggestions for public-letter drafts. No external dependencies."""
 
-import ipaddress
 import json
 import os
 import re
-import urllib.error
-import urllib.request
-from urllib.parse import urlsplit
+from model_api import chat_completion
 
 
 # Specific labels precede broad terms in a tie. Repeat mentions do not inflate scores.
@@ -48,37 +45,16 @@ def _fallback(title, body, notice=""):
     return {"tags": local_tags(title, body), "source": "local", "sourceLabel": "本地词表", "notice": notice}
 
 
-class _DirectEndpoint(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, *args):
-        return None
-
-
 def _model_tags(endpoint, model, title, body):
-    url = urlsplit(endpoint)
-    try:
-        local = url.hostname == "localhost" or ipaddress.ip_address(url.hostname or "").is_loopback
-    except ValueError:
-        local = False
-    if not url.hostname or url.username or url.password or url.fragment or (
-            url.scheme != "https" and not (url.scheme == "http" and local)):
-        raise ValueError("Invalid model service URL")
-    headers = {"Content-Type": "application/json", "Accept": "application/json"}
-    api_key = os.environ.get("SEA_TAG_MODEL_KEY")
-    if api_key:
-        headers["Authorization"] = "Bearer " + api_key
     messages = [
         {"role": "system", "content": "只为所给书信提取文中明确涉及的文化元素。返回一个 JSON 对象，"
          "格式为 {\"tags\":[\"标签\"]}。零至五项，每项一至十二字。不要生成介绍、姓名或地址。"},
         {"role": "user", "content": json.dumps({"title": title, "body": body}, ensure_ascii=False)},
     ]
-    request = urllib.request.Request(endpoint, data=json.dumps({
+    choice = chat_completion(endpoint, os.environ.get("SEA_TAG_MODEL_KEY"), {
         "model": model, "messages": messages, "temperature": 0, "max_tokens": 160,
-    }).encode("utf-8"), headers=headers, method="POST")
-    with urllib.request.build_opener(_DirectEndpoint()).open(request, timeout=8) as response:
-        raw = response.read(65537)
-    if len(raw) > 65536:
-        raise ValueError("Oversized model response")
-    content = json.loads(raw)["choices"][0]["message"]["content"]
+    }, timeout=8)
+    content = choice["message"]["content"]
     if not isinstance(content, str):
         raise ValueError("Invalid model response")
     content = re.sub(r"^\x60\x60\x60(?:json)?\s*|\s*\x60\x60\x60$", "", content.strip(), flags=re.I)

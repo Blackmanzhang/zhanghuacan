@@ -2,6 +2,7 @@
 
 "use strict";
 const main = document.querySelector("#main");
+const primaryNavigation = document.querySelector("#nav");
 const dialog = document.querySelector("#dialog");
 const state = { me: {}, letters: [], mine: [], inbox: [], favorites: [] };
 const themes = ["家乡风物", "节日习俗", "海外日常", "成长记忆", "未来心愿"];
@@ -19,6 +20,8 @@ const artNames = {
 };
 const paths = {
   home: '<path d="m3 10 9-7 9 7v10H4V10m5 10v-7h6v7"/>',
+  sparkles:
+    '<path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8L11 3zm7.5 10v7m-3.5-3.5h7M19 3v4m-2-2h4"/>',
   pen: '<path d="m15 5 4 4M4 20l5-1L21 7a2.8 2.8 0 0 0-4-4L5 15z"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
   waves:
@@ -200,8 +203,9 @@ function discoverItems() {
         )),
   );
 }
-function results() {
-  return season.results(discoverItems(), card, empty);
+function updateDiscovery() {
+  const target = main.querySelector("#discovery-results");
+  if (target) season.results(target, discoverItems(), card, empty);
 }
 function discover() {
   const regions = [
@@ -211,7 +215,7 @@ function discover() {
         .filter((v) => v && v !== "未公开"),
     ),
   ];
-  return `<div class="page-head"><div><h1>拾一封海上来信</h1><p>挑选感兴趣的主题，或让海流替你选一封。</p></div><button data-action="random-filtered" class="btn solid">${icon("shuffle", 17)}随机拾信</button></div><div class="filter-bar"><label class="searchbox">${icon("search", 17)}<input id="search" type="search" placeholder="搜索标题、作者或信中内容" aria-label="搜索来信" value="${esc(filters.q)}"></label><select id="region-filter" aria-label="筛选地域"><option value="">全部地域</option>${regions.map((v) => `<option ${v === filters.region ? "selected" : ""}>${esc(v)}</option>`).join("")}</select><select id="drift-filter" aria-label="漂流方式"><option value="">全部漂流方式</option><option value="free" ${filters.drift === "free" ? "selected" : ""}>自由漂流</option><option value="theme" ${filters.drift === "theme" ? "selected" : ""}>主题漂流</option></select></div>${chips(filters.theme, "discover-theme", ["全部来信", ...new Set([...themes, ...state.letters.map((l) => l.theme)])])}<div id="discovery-results">${results()}</div>`;
+  return `<div class="page-head"><div><h1>拾一封海上来信</h1><p>挑选感兴趣的主题，或让海流替你选一封。</p></div><div class="row-actions pickup-actions"><button type="button" data-action="random-filtered" class="btn solid">${icon("shuffle", 17)}随机拾信</button><button type="button" class="btn pickup-postome" data-action="random-postome">${icon("mail", 17)}时光邮局随机来信</button></div></div><div class="filter-bar"><label class="searchbox">${icon("search", 17)}<input id="search" type="search" placeholder="搜索标题、作者或信中内容" aria-label="搜索来信" value="${esc(filters.q)}"></label><select id="region-filter" aria-label="筛选地域"><option value="">全部地域</option>${regions.map((v) => `<option ${v === filters.region ? "selected" : ""}>${esc(v)}</option>`).join("")}</select><select id="drift-filter" aria-label="漂流方式"><option value="">全部漂流方式</option><option value="free" ${filters.drift === "free" ? "selected" : ""}>自由漂流</option><option value="theme" ${filters.drift === "theme" ? "selected" : ""}>主题漂流</option></select></div>${chips(filters.theme, "discover-theme", ["全部来信", ...new Set([...themes, ...state.letters.map((l) => l.theme)])])}<div id="discovery-results"></div>`;
 }
 function read(id) {
   const l = getLetter(id);
@@ -246,22 +250,74 @@ function draftKey(parent) {
 function draft(parent) {
   try {
     const saved = JSON.parse(localStorage.getItem(draftKey(parent)) || "{}");
-    return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+    return saved && typeof saved === "object" && !Array.isArray(saved)
+      ? saved
+      : {};
   } catch {
     return {};
   }
 }
 function compose(parentId) {
-  const parent = parentId && published().find((l) => l.id === parentId);
+  const parent =
+    parentId && published().find((letter) => letter.id === parentId);
   if (parentId && (!parent || !parent.open))
     return empty("这条故事支线目前无法接力。", "discover", "返回拾信");
-  const d = draft(parentId),
-    requested = d.art || parent?.art,
-    token = Object.hasOwn(artNames, requested) ? requested : "wave",
-    title = parent ? "让故事继续漂流" : "写一封信";
-  return `<div class="page-head"><div><h1>${title}</h1><p>${parent ? `正在回应《${esc(parent.title)}》，发表后将连接到这封信。` : "把想说的话写下来，寄给海的另一边。"}</p></div></div><form id="compose" class="compose-layout" data-parent="${esc(parentId)}"><div class="panel form-grid">${season.quoteInput(parent, d)}<label class="field">信件标题<input name="title" value="${esc(d.title || "")}" required maxlength="100" placeholder="给这封信起个名字"></label><label class="field">正文<textarea name="body" required maxlength="5000" rows="8" placeholder="写给远方的你……">${esc(d.body || "")}</textarea></label><div class="form-pair"><label class="field">主题<select name="theme">${[...new Set([...themes, ...(parent ? [parent.theme] : [])])].map((t) => `<option ${(d.theme || parent?.theme) === t ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label><label class="field">公开地域（选填）<input name="region" maxlength="30" placeholder="例如：福建、台湾、新加坡" value="${esc(d.region ?? state.me.region ?? "")}" list="region-suggestions"><datalist id="region-suggestions">${(state.regions || []).map((r) => `<option value="${esc(r)}"></option>`).join("")}</datalist></label></div>${window.cultureTools.tagsEditor(d.tags || [])}<label class="field">漂流方式<select name="drift"><option value="free">自由漂流</option><option value="theme" ${d.drift === "theme" ? "selected" : ""}>主题漂流</option></select></label><label class="field">附图或声音（选填）<input type="file" id="upload" accept="image/jpeg,image/png,image/webp,image/gif,audio/mpeg,audio/wav,audio/x-wav,audio/ogg,audio/webm,audio/mp4"></label><p class="subtle" style="font-size:13px">可附一张图片或一段音频，最大 4 MB。</p><label class="check"><input type="checkbox" name="open" ${d.open === false ? "" : "checked"}>允许其他人公开接力</label><label class="check"><input type="checkbox" name="exhibit" ${d.exhibit ? "checked" : ""}>同意在数字展厅展示这封信和附件，并保留署名</label><p class="subtle" style="font-size:14px">信件审核通过后公开展示。署名为「${esc(state.me.name)}」。</p><p class="error" role="alert"></p><div class="row-actions"><button class="btn solid" type="submit">${icon("send", 17)}装瓶寄出</button><button type="button" class="btn" data-action="draft">保存草稿</button></div></div>
- <aside class="panel editor-tools"><h2>信笺封面</h2>${stationery.editor(d, token, artNames)}${season.paperTools(d)}</aside></form>`;
+  const saved = draft(parentId);
+  const requestedCover = saved.art || parent?.art;
+  const cover = Object.hasOwn(artNames, requestedCover)
+    ? requestedCover
+    : "wave";
+  const themeOptions = [
+    ...new Set([...themes, ...(parent ? [parent.theme] : [])]),
+  ]
+    .map(
+      (theme) =>
+        `<option ${(saved.theme || parent?.theme) === theme ? "selected" : ""}>${esc(theme)}</option>`,
+    )
+    .join("");
+  const regionOptions = (state.regions || [])
+    .map((region) => `<option value="${esc(region)}"></option>`)
+    .join("");
+  const description = parent
+    ? `正在回应《${esc(parent.title)}》，发表后将连接到这封信。`
+    : "把想说的话写下来，寄给海的另一边。";
+
+  return `<div class="page-head"><div><h1>${parent ? "让故事继续漂流" : "写一封信"}</h1><p>${description}</p></div></div>
+    <form id="compose" class="compose-layout" data-parent="${esc(parentId)}">
+      <section class="panel form-grid">
+        <label class="field">信件标题<input name="title" value="${esc(saved.title || "")}" required maxlength="100" placeholder="给这封信起个名字"></label>
+        <div class="form-pair">
+          <label class="field">主题<select name="theme">${themeOptions}</select></label>
+          <label class="field">公开地域（选填）<input name="region" maxlength="30" placeholder="例如：福建、台湾、新加坡" value="${esc(saved.region ?? state.me.region ?? "")}" list="region-suggestions"><datalist id="region-suggestions">${regionOptions}</datalist></label>
+        </div>
+        ${window.cultureTools.tagsEditor(saved.tags || [])}
+        ${composeAI.editor(saved.body || "", state.writeAI)}
+      </section>
+      <section class="panel editor-tools compose-stationery">
+        <h2>信笺封面</h2>
+        <div class="compose-stationery-grid">
+          <div>${stationery.editor(saved, cover, artNames)}</div>
+          <div>${season.paperTools(saved)}</div>
+        </div>
+      </section>
+      <section class="panel form-grid compose-delivery">
+        <h2>附件与寄送</h2>
+        ${season.quoteInput(parent, saved)}
+        <label class="field">附图或声音（选填）<input type="file" id="upload" accept="image/jpeg,image/png,image/webp,image/gif,audio/mpeg,audio/wav,audio/x-wav,audio/ogg,audio/webm,audio/mp4" aria-describedby="compose-upload-help"></label>
+        <p class="subtle compose-upload-help" id="compose-upload-help">可附一张图片或一段音频，最大 4 MB。</p>
+        <label class="field">漂流方式<select name="drift"><option value="free">自由漂流</option><option value="theme" ${saved.drift === "theme" ? "selected" : ""}>主题漂流</option></select></label>
+        <label class="check"><input type="checkbox" name="open" ${saved.open === false ? "" : "checked"}>允许其他人公开接力</label>
+        <label class="check"><input type="checkbox" name="exhibit" ${saved.exhibit ? "checked" : ""}>同意在数字展厅展示这封信和附件，并保留署名</label>
+        <p class="subtle compose-byline">信件审核通过后公开展示。署名为「${esc(state.me.name)}」。</p>
+        <p class="error" role="alert"></p>
+        <div class="row-actions">
+          <button type="button" class="btn" data-action="draft">保存草稿</button>
+          <button type="submit" class="btn solid">${icon("send", 17)}装瓶寄出</button>
+        </div>
+      </section>
+    </form>`;
 }
+
 function mine() {
   const me = state.me,
     isGuest = me.guest,
@@ -296,20 +352,78 @@ function mine() {
   return `<div class="page-head"><h1>我的海</h1></div><div class="panel account-band">${avatar(me.name)}<div><strong>${esc(me.name)}</strong><p class="subtle">${isGuest ? "当前为此浏览器的访客身份" : "已登录"}${me.region ? " · " + esc(me.region) : ""}</p></div><div class="row-actions">${isGuest ? '<button class="btn compact solid" data-action="register">保存为账号</button><button class="btn compact" data-action="login">登录</button>' : '<button class="btn compact" data-action="logout">退出登录</button>'}</div></div>${chips(myTab, "my-tab", ["我的书信", "私人信箱", "我的共创", "我的草稿", "我的收藏"])}<div class="list">${content}</div>`;
 }
 const nav = [
-  ["home", "书信地球"],
-  ["sounds", "乡音博物馆"],
-  ["workshop", "共创工坊"],
-  ["atlas", "文化地图"],
-  ["knowledge", "知识图谱"],
-  ["discover", "拾信广场"],
+  ["home", "书信地球", "globe"],
+  ["sounds", "乡音展馆", "waves"],
+  ["workshop", "海上手账", "pen"],
+  ["atlas", "文化地图", "compass"],
+  ["knowledge", "知识图谱", "branch"],
+  ["discover", "拾信广场", "bottle"],
 ];
+
+function setupNavigation() {
+  const toggle = document.querySelector("#navigation-toggle");
+  const dock = document.querySelector("#navigation-dock");
+  const drawer = document.querySelector("#mobile-navigation");
+  const close = drawer.querySelector(".navigation-close");
+  const compact = matchMedia("(max-width: 1040px)");
+
+  primaryNavigation.innerHTML = nav
+    .map(
+      ([code, name, glyph]) =>
+        `<a class="nav-link" href="#${code}"><span class="nav-glyph">${icon(glyph, 19)}</span>${name}</a>`,
+    )
+    .join("");
+  toggle.innerHTML = icon("menu", 22);
+  close.innerHTML = icon("close", 21);
+
+  function focusLink() {
+    (
+      primaryNavigation.querySelector('a[aria-current="page"]') ||
+      primaryNavigation.querySelector("a")
+    ).focus();
+  }
+  function placeNavigation() {
+    const wasOpen = drawer.open;
+    const hadFocus = primaryNavigation.contains(document.activeElement);
+    const destination = compact.matches ? drawer : dock;
+    if (!compact.matches && wasOpen) drawer.close();
+    if (primaryNavigation.parentElement !== destination) {
+      destination.append(primaryNavigation);
+    }
+    if (compact.matches && hadFocus && !drawer.open) toggle.focus();
+    if (!compact.matches && wasOpen) focusLink();
+  }
+
+  toggle.addEventListener("click", () => {
+    drawer.showModal();
+    toggle.setAttribute("aria-expanded", "true");
+    focusLink();
+  });
+  close.addEventListener("click", () => drawer.close());
+  drawer.addEventListener("close", () => {
+    toggle.setAttribute("aria-expanded", "false");
+  });
+  drawer.addEventListener("click", (event) => {
+    if (event.target.closest(".nav-link")) {
+      drawer.close();
+    } else if (event.target === drawer) {
+      const bounds = drawer.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right)
+        drawer.close();
+    }
+  });
+  window.addEventListener("hashchange", () => {
+    if (drawer.open) drawer.close();
+  });
+  compact.addEventListener("change", placeNavigation);
+  placeNavigation();
+}
 const names = {
   home: "书信地球",
-  sounds: "数字乡音博物馆",
+  sounds: "乡音展馆",
   knowledge: "文化知识图谱",
   atlas: "文化地图",
-  workshop: "共创工坊",
-  festival: "中秋主题展",
+  workshop: "海上手账",
   admin: "内容审核",
   discover: "拾信广场",
   tree: "海洋故事树",
@@ -325,27 +439,32 @@ let currentRoute = "",
   ready = false;
 function render() {
   if (!ready) return;
-  const [key, id] = getRoute();
+  let [key, id] = getRoute();
+  if (key === "festival" || (key === "workshop" && /^(legacy|m\d+)$/.test(id))) {
+    history.replaceState(null, "", "#workshop");
+    [key, id] = ["workshop", ""];
+  }
   const route = key + "/" + id;
   window.letterPlanet?.unmount();
+  window.knowledgeGraph?.unmount(key === "knowledge");
   document.body.classList.toggle("planet-home", key === "home");
   document.body.dataset.route = key;
   const changed = currentRoute !== route;
+  const withinNotebook = key === "workshop" && seaNotebooks.canTurn(main, id);
+  const withinExplorer = withinNotebook ||
+    (key === "atlas" || key === "knowledge") && currentRoute.startsWith(key + "/");
   currentRoute = route;
   const group =
     {
       read: "discover",
       timeline: "tree",
       relay: "tree",
-      festival: "gallery",
       network: "atlas",
     }[key] || key;
-  document.querySelector("#nav").innerHTML = nav
-    .map(
-      ([code, name]) =>
-        `<a class="nav-link ${group === code ? "active" : ""}" ${group === code ? 'aria-current="page"' : ""} href="#${code}">${name}</a>`,
-    )
-    .join("");
+  for (const link of primaryNavigation.children) {
+    if (link.hash === "#" + group) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  }
   document.title = (names[key] || "页面") + " · 海上有信";
   const views = {
     home: () => letterPlanet.view(),
@@ -353,33 +472,35 @@ function render() {
     knowledge: () => knowledgeGraph.view(id),
     discover,
     mine,
-    atlas: () => cultureViews.atlas(id),
-    workshop: () => workshopViews.workshop(id),
-    festival: () => workshopViews.festival(id),
+    workshop: () => seaNotebooks.screen(),
     admin: () => reviewDesk.page(),
     read: () => read(id),
     write: () => compose(""),
     relay: () => compose(id),
   };
-  main.innerHTML = views[key]
-    ? views[key]()
-    : window.storyViews?.[key]
-      ? window.storyViews[key](id)
-      : empty("找不到这个页面。", "home", "回到首页");
+  if (key === "atlas") {
+    cultureViews.atlas(main, id);
+  } else if (!withinNotebook) {
+    main.innerHTML = views[key]
+      ? views[key]()
+      : window.storyViews?.[key]
+        ? window.storyViews[key](id)
+        : empty("找不到这个页面。", "home", "回到首页");
+  }
+  if (key === "workshop") window.seaNotebooks?.mount(main, id);
+  if (key === "discover") updateDiscovery();
   const editor = main.querySelector("#compose");
-  if (editor) stationery.restore(editor);
+  if (editor) {
+    stationery.restore(editor);
+    composeAI.mount(editor);
+  }
   if (key === "home") letterPlanet.mount();
   if (key === "sounds") window.soundMuseum.mount?.(id);
   if (key === "knowledge") window.knowledgeGraph.mount?.(id);
-  if (key === "gallery" && !id) {
-    const toolbar = main.querySelector(".sv-toolbar");
-    if (toolbar)
-      toolbar.insertAdjacentHTML("beforebegin", season.galleryEntry());
-  }
   if (key === "read") season.scrollQuote(id);
   if (key === "admin") reviewDesk.load();
   if (changed) {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (!withinExplorer) window.scrollTo({ top: 0, behavior: "instant" });
     if (dialog.open) dialog.close();
     window.dispatchEvent(new Event("sea:route-ready"));
   }
@@ -413,6 +534,24 @@ async function randomPick(list) {
   await sailing("拾起一封海上来信", true);
   go("read/" + urlId(l.id));
 }
+async function randomPostome() {
+  modal("时光邮局随机来信", '<div class="postome-letter" data-postome-result aria-live="polite" aria-busy="true"><p>正在拾取公开信并整理摘要…</p></div>');
+  const result = dialog.querySelector("[data-postome-result]");
+  const route = location.hash;
+  const actions = '<div class="row-actions"><button type="button" class="btn compact" data-action="random-postome">再拾一封</button></div>';
+  try {
+    const letter = await request("postome/random", {});
+    if (result.isConnected && dialog.open && location.hash === route) {
+      result.innerHTML = `<p class="postome-source">来源：PostoMe 时光邮局 · AI 摘要${letter.date ? " · " + esc(letter.date) : ""}</p><h3>${esc(letter.title)}</h3><p>${esc(letter.summary)}</p>${actions}`;
+    }
+  } catch (error) {
+    if (result.isConnected && dialog.open && location.hash === route)
+      result.innerHTML = `<p>${esc(error.status ? error.message : "暂时无法取得来信，请稍后再试。")}</p>${actions}`;
+  } finally {
+    result.removeAttribute("aria-busy");
+  }
+}
+
 function authForm(register) {
   modal(
     register ? "保存为账号" : "登录我的海",
@@ -450,6 +589,10 @@ async function action(btn) {
   }
   if (kind === "random" || kind === "random-filtered") {
     await randomPick(kind === "random" ? published() : discoverItems());
+    return;
+  }
+  if (kind === "random-postome") {
+    await randomPostome();
     return;
   }
   if (kind === "dismiss") {
@@ -544,6 +687,7 @@ document.addEventListener("click", async (e) => {
     "my-tab",
     "random",
     "random-filtered",
+    "random-postome",
     "dismiss",
     "register",
     "login",
@@ -570,7 +714,7 @@ document.addEventListener("input", (e) => {
   if (e.target.id === "search") {
     season.resetPickup();
     filters.q = e.target.value;
-    document.querySelector("#discovery-results").innerHTML = results();
+    updateDiscovery();
   }
 });
 document.addEventListener("change", (e) => {
@@ -578,7 +722,7 @@ document.addEventListener("change", (e) => {
     season.resetPickup();
     filters[e.target.id === "region-filter" ? "region" : "drift"] =
       e.target.value;
-    document.querySelector("#discovery-results").innerHTML = results();
+    updateDiscovery();
   }
 });
 async function asMedia(file) {
@@ -624,7 +768,7 @@ document.addEventListener("submit", async (e) => {
     if (f.id === "compose") {
       await stationery.ready(f);
       const data = values(f);
-      data.cover = data.coverData ? {url:data.coverData} : null;
+      data.cover = data.coverData ? { url: data.coverData } : null;
       delete data.coverData;
       data.parentId = f.dataset.parent || null;
       data.quote =
@@ -701,7 +845,7 @@ window.app = {
   request,
   reload,
   modal,
-  pickupResults: results,
+  updateDiscovery,
 };
 async function navigate() {
   if (!ready) return;
@@ -745,4 +889,7 @@ async function refreshWhenReturning() {
   } catch {}
 }
 document.addEventListener("visibilitychange", refreshWhenReturning);
-window.addEventListener("DOMContentLoaded", start);
+window.addEventListener("DOMContentLoaded", () => {
+  setupNavigation();
+  start();
+});

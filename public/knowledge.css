@@ -45,8 +45,7 @@
   color: #b8d2cf;
   font-size: 0.8rem;
 }
-.kg-chart header small,
-.kg-chart-foot span:last-child {
+.kg-chart header small {
   margin-left: auto;
 }
 .kg-chart-foot {
@@ -62,64 +61,132 @@
   border-radius: 50%;
   background: #efcc91;
 }
-.kg-graph {
-  display: block;
-  width: 100%;
-  height: auto;
+.kg-sphere {
+  position: relative;
+  isolation: isolate;
+  height: clamp(310px, 46cqw, 565px);
   border-top: 1px solid #34535c;
+  background: radial-gradient(ellipse at 47% 46%, #17434c, #0d2735 75%);
+  cursor: grab;
+  touch-action: none;
 }
-.kg-graph text {
-  text-anchor: middle;
+.kg-sphere.is-dragging,
+.kg-sphere.is-dragging .kg-node {
+  cursor: grabbing;
+}
+.kg-sphere:focus-visible {
+  outline: 2px solid #e5bc7e;
+  outline-offset: -3px;
+}
+.kg-sphere > canvas,
+.kg-nodes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  font-family: var(--sans);
 }
-.kg-orbits {
-  fill: none;
-  stroke: #64838d;
-  stroke-width: 0.7;
-  stroke-dasharray: 2 7;
+.kg-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--kg-depth-layer, 1);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #eff8ed;
+  pointer-events: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+  cursor: pointer;
 }
-.kg-rays path {
-  stroke: #77a8ac;
-  stroke-width: 1.5;
+.kg-node[hidden] {
+  display: none;
 }
-.kg-rays rect {
-  fill: #123541;
+.kg-node::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 1px solid #e4f4ea;
+  border-radius: 50%;
+  background: var(--kg-tone);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--kg-tone), transparent 34%);
 }
-.kg-rays text {
-  fill: #c1d8d0;
-  font-size: 11px;
+.kg-node span {
+  position: absolute;
+  top: 27px;
+  left: calc(50% + var(--kg-label-shift, 0px));
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border: 1px solid #53797b;
+  border-radius: 5px;
+  background: #153740;
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 650;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
 }
-.kg-satellite rect {
-  fill: #183e4c;
-  stroke: var(--kg-tone);
-  stroke-width: 1.3;
+.kg-node:is(:hover, :focus-visible, [data-kg-label]) span {
+  opacity: 1;
+  pointer-events: auto;
 }
-.kg-satellite text {
-  fill: #fcfaf3;
-  font-size: 15px;
-  font-weight: 600;
+.kg-node:is(:hover, :focus-visible) {
+  z-index: 120;
 }
-.kg-satellite:hover rect,
-.kg-satellite:focus-visible rect {
-  fill: #345968;
-  stroke-width: 3;
+.kg-node[aria-current]::before {
+  width: 15px;
+  height: 15px;
+  background: #ffe1a1;
+  box-shadow: 0 0 0 5px #f3c4743d, 0 0 20px #f4cc8196;
 }
-.kg-core ellipse {
-  fill: #193b49;
-  stroke: var(--kg-tone);
-  stroke-width: 1.4;
+.kg-node[aria-current] span {
+  border-color: #cba86b;
+  color: #ffe1a1;
 }
-.kg-core ellipse:first-child {
-  fill: none;
-  stroke-dasharray: 2 5;
-  opacity: 0.65;
+.kg-chart-foot button {
+  margin-inline-start: auto;
+  padding: 4px 10px;
+  border: 1px solid #527779;
+  border-radius: 5px;
+  background: #133841;
+  color: #e0eee6;
+  font: inherit;
 }
-.kg-core text {
-  font-family: var(--serif);
-  font-size: 21px;
-  font-weight: bold;
-  fill: var(--kg-tone);
+.kg-chart-foot button:hover {
+  background: #28525a;
+}
+.kg-chart-foot button[hidden] {
+  display: none;
+}
+.kg-sphere-fallback {
+  height: auto;
+  padding: 15px;
+  touch-action: auto;
+}
+.kg-sphere-fallback canvas {
+  display: none;
+}
+.kg-sphere-fallback .kg-nodes {
+  position: static;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.kg-sphere-fallback .kg-node {
+  position: static;
+  display: inline-flex;
+  width: auto;
+  gap: 7px;
+  padding: 5px;
+}
+.kg-sphere-fallback .kg-node span {
+  position: static;
+  transform: none;
+  opacity: 1;
 }
 .kg-index {
   margin-top: 1rem;
@@ -238,16 +305,15 @@
   display: inline-block;
   margin-top: 0.8rem;
 }
-@media (max-width: 790px) {
+@container site-content (max-width: 760px) {
   .kg-layout {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+@media (max-width: 790px) {
   .kg-card,
   .kg-index {
     padding: 1rem;
-  }
-  .kg-graph {
-    max-height: 350px;
   }
   .kg-fields {
     font-size: 0.9rem;

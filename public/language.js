@@ -2,6 +2,33 @@
 (() => {
   "use strict";
   const messages = {
+    附件与寄送: "附件與寄送",
+    "点击生成会把上面四项发给已配置的模型，可先预览草稿。":
+      "點擊生成會把上面四項發給已設定的模型，可先預覽草稿。",
+    "AI 正文生成尚未配置。按项目 README 配置后即可使用。":
+      "AI 正文生成尚未設定。按專案 README 設定後即可使用。",
+    "AI 草稿预览": "AI 草稿預覽",
+    "使用这份草稿会替换现有正文。": "使用這份草稿會取代現有正文。",
+    关闭预览: "關閉預覽",
+    使用这份草稿: "使用這份草稿",
+    替换为这份草稿: "以這份草稿取代正文",
+    "正在生成书信草稿…": "正在生成書信草稿…",
+    "请先填写信件标题。": "請先填寫信件標題。",
+    "写信资料已修改，请重新生成草稿。": "寫信資料已修改，請重新生成草稿。",
+    "草稿已填入正文，可以继续编辑。": "草稿已填入正文，可以繼續編輯。",
+    "暂时连不上写信服务，请稍后再试。": "暫時連不上寫信服務，請稍後再試。",
+    "请从公开地域建议中选择，或将地域留空。":
+      "請從公開地域建議中選擇，或將地域留空。",
+    "AI 写信尚未配置。请按项目 README 配置模型后重启服务。":
+      "AI 寫信尚未設定。請按專案 README 設定模型後重啟服務。",
+    "模型服务未通过认证。请核对服务端 API Key 和模型权限。":
+      "模型服務未通過驗證。請核對伺服器端的 API Key 和模型權限。",
+    "模型服务余额不足。请检查账户余额后重试。":
+      "模型服務餘額不足。請檢查帳戶餘額後重試。",
+    "模型服务请求较多，请稍后再试。": "模型服務請求較多，請稍後再試。",
+    "模型服务暂时不可用，请稍后再试。": "模型服務暫時無法使用，請稍後再試。",
+    "暂时连不上模型服务，请稍后再试。": "暫時連不上模型服務，請稍後再試。",
+    "模型未返回完整的书信正文，请重试。": "模型未傳回完整的書信正文，請重試。",
     夜港灯塔: "夜港燈塔",
     潮汐邮局: "潮汐郵局",
     江口归帆: "江口歸帆",
@@ -39,7 +66,7 @@
     海洋自然: "海洋自然",
     书信: "書信",
     书信地球: "書信地球",
-    乡音博物馆: "鄉音博物館",
+    乡音展馆: "鄉音展館",
     知识图谱: "知識圖譜",
     全球书信网络: "全球書信網絡",
     "越过山海。": "越過山海。",
@@ -62,10 +89,11 @@
     拆开来信: "拆開來信",
     探索文化空间: "探索文化空間",
     浏览数字展厅: "瀏覽數字展廳",
-    数字乡音博物馆: "數字鄉音博物館",
+
     "逐词对听，辨认故乡的声音": "逐詞對聽，辨認故鄉的聲音",
     多人文化创作工坊: "多人文化創作工坊",
-    在同一幅画上接续创作: "在同一幅畫上接續創作",
+    海上手账: "海上手帳",
+    翻阅不同地区共同写下的记忆: "翻閱不同地區共同寫下的記憶",
     按地点探访习俗与来信: "按地點探訪習俗與來信",
     文化知识图谱: "文化知識圖譜",
     沿一条关系发现另一种文化: "沿一條關系發現另一種文化",
@@ -85,7 +113,7 @@
     "把家乡话录成声音来信，写下原文、地域和语种标签。勾选展出授权，审核通过后即可在馆内收听。":
       "把家鄉話錄成聲音來信，寫下原文、地域和語種標簽。勾選展出授權，審核通過后即可在館內收聽。",
     写声音来信: "寫聲音來信",
-    回到乡音馆: "回到鄉音館",
+    回到乡音展馆: "回到鄉音展館",
     "乡音馆藏 · 词音原档": "鄉音館藏 · 詞音原檔",
     录音文字: "錄音文字",
     录音出处: "錄音出處",
@@ -95,7 +123,14 @@
     "选一个文化词条，沿连线探索它与地点、乐器和节俗的关系。":
       "選一個文化詞條，沿連線探索它與地點、樂器和節俗的關系。",
     当前词条: "當前詞條",
-    "点击相邻词条继续展开 ↗": "點擊相鄰詞條繼續展開 ↗",
+    全部对听词: "全部對聽詞",
+    显示更多录音: "顯示更多錄音",
+    街巷器物: "街巷器物",
+    四季节俗: "四季節俗",
+    乐声: "樂聲",
+    "文化关系球，拖动或用方向键旋转": "文化關係球，拖動或用方向鍵旋轉",
+    "拖动旋转 · 点选节点探索": "拖動旋轉 · 點選節點探索",
+    定位当前词条: "定位當前詞條",
     词条索引: "詞條索引",
     全部类别: "全部類別",
     地点: "地點",
@@ -144,6 +179,8 @@
     确认投稿: "確認投稿",
     录音对听: "錄音對聽",
     网站导航: "網站導航",
+    打开导航: "打開導航",
+    关闭导航: "關閉導航",
     海上有信首页: "海上有信首頁",
     写信: "寫信",
     首页: "首頁",
@@ -172,6 +209,9 @@
       "寄一封家書，和海的另一邊共繪一幅長卷。",
     海上来信: "海上來信",
     随机拾信: "隨機拾信",
+    时光邮局随机来信: "時光郵局隨機來信",
+    再拾一封: "再拾一封",
+    "正在拾取公开信并整理摘要…": "正在拾取公開信並整理摘要…",
     浏览全部: "瀏覽全部",
     全部来信: "全部來信",
     家乡风物: "家鄉風物",
@@ -293,6 +333,20 @@
       "循著鄉音、節俗與餐桌，探索一座城市，再讀一封當地的信。",
     文化地点: "文化地點",
     地图: "地圖",
+    地图操作: "地圖操作",
+    缩小地图: "縮小地圖",
+    放大地图: "放大地圖",
+    "高德地图 · 文化地点": "高德地圖 · 文化地點",
+    "正在加载高德地图…": "正在載入高德地圖…",
+    "尚未配置高德地图的 Web 端 Key 和安全密钥。": "尚未設定高德地圖的 Web 端 Key 和安全金鑰。",
+    "高德地图接口尚未启动。请重启项目后重试。": "高德地圖介面尚未啟動。請重新啟動專案後再試。",
+    "高德地图授权失败。请检查 Web 端 Key、安全密钥和域名白名单。":
+      "高德地圖授權失敗。請檢查 Web 端 Key、安全金鑰和網域白名單。",
+    "高德地图暂时无法加载，请稍后重试。": "高德地圖暫時無法載入，請稍後再試。",
+    重新加载: "重新載入",
+    切换到列表: "切換到列表",
+    "虚线连接共享文化传统的地点。点选地标可查看当地文化与来信。":
+      "虛線連接共享文化傳統的地點。點選地標可查看當地文化與來信。",
     岁时节俗: "歲時節俗",
     乡音曲艺: "鄉音曲藝",
     食与日常: "食與日常",
@@ -482,18 +536,21 @@
   try {
     traditional = localStorage.getItem(storageKey) === "zh-Hant";
   } catch {}
+  window.translateSiteLabel = (label) => (traditional ? messages[label] : null) || label;
   const originals = new WeakMap();
   const originalAttrs = new WeakMap();
 
   // Only these named parts of the UI have translatable text. User-content containers
   // and dynamic headings (e.g., a gallery exhibit title) are intentionally absent.
   const labels = [
+    "#navigation-title",
+    ".compose-delivery > h2,#compose-ai-help,[data-ai-generate] span,[data-ai-status],#compose-ai-preview-title,[data-ai-overwrite]",
     ".cover-upload label,.cover-upload small,.cover-feedback,[data-cover-caption],[data-paper-name],.review-cover figcaption",
     ".sky-kicker,.sky h1,.sky h1 em,.sky-copy>p,.sky-actions>a,.sky-actions>button,.sky-stats dt,.globe-tools>span,[data-spin],.globe-pin>span,.post-pages>a,.post-connections small,.room-art h3,.room-copy p,.rooms-heading h2,.rooms-heading a",
-    ".sm-hero h1,.sm-hero p,.sm-label,.sm-compare-heading h2,.sm-compare-heading p,.sm-words button,.sm-archive-head h2,.sm-filters label,.sm-notes h2,.sm-back,.sm-contribute h3,.sm-contribute p,.sm-submit,.sm-links a,.sm-rowlink,.sm-count",
-    ".kg-evidence>h3,.kg-index h2,.kg-chart-foot,.kg-chart-foot>span,.kg-chart h2,.kg-chart header small,.kg-page .page-head p,.kg-page .page-head h1",
+    ".sm-word-picker,.sm-museum .page-head h1,.sm-museum .page-head p,.sm-label,.sm-compare-heading h2,.sm-compare-heading p,.sm-words button,.sm-archive-head h2,.sm-filters label,.sm-notes h2,.sm-back,.sm-contribute h3,.sm-contribute p,.sm-submit,.sm-links a,.sm-rowlink,.sm-count",
+    ".kg-evidence>h3,.kg-index h2,.kg-chart-foot,.kg-chart-foot>span,[data-kg-center],.kg-node span,.kg-chart h2,.kg-chart header small,.kg-page .page-head p,.kg-page .page-head h1",
     ".sc-header h1,.sc-header p,.sc-header a,.sc-tools [data-tool] span,.sc-stamps button>span,.sc-tray h3,.sc-tray label,.sc-base,.sc-hint,.sc-studio .btn,.sc-footer .sc-count",
-    ".ca-map-tools button,.ca-map-tools span,.ca-cross,.kg-source,.kg-map-link",
+    ".ca-map-tools button,.ca-map-status p,.ca-caption,.ca-cross,.kg-source,.kg-map-link",
     ".skip",
     ".nav-link",
     ".head-actions a",
@@ -557,7 +614,6 @@
     ".ca-place-visual > span",
     ".ca-stop-list span",
     ".ca-stop-list small",
-    ".ca-map text",
     ".ca-guide > span",
     ".ca-guide h3",
     ".ca-guide p",
@@ -740,7 +796,7 @@
     });
   }
   const attributes =
-    "[aria-label],input[placeholder],textarea[placeholder],button[title],img[alt]";
+    "[aria-label],input[placeholder],textarea[placeholder],button[title],iframe[title],img[alt]";
   function process(root) {
     if (root.nodeType !== Node.ELEMENT_NODE || !root.isConnected) return;
     const selectable = [...root.querySelectorAll(labels)];
@@ -833,5 +889,6 @@
       localStorage.setItem(storageKey, traditional ? "zh-Hant" : "zh-CN");
     } catch {}
     apply();
+    window.dispatchEvent(new Event("sea:language-changed"));
   });
 })();

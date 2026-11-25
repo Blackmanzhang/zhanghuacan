@@ -1,0 +1,63 @@
+html,
+body,
+#atlas-map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+.atlas-pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #f7fffb;
+  cursor: pointer;
+}
+
+.atlas-pin::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid #f7fffb;
+  border-radius: 50%;
+  background: #205755;
+  box-shadow: 0 1px 5px #143a4470;
+}
+
+.atlas-pin span {
+  position: absolute;
+  bottom: 21px;
+  padding: 2px 6px;
+  border: 1px solid #ffffffb3;
+  border-radius: 5px;
+  background: #205755;
+  box-shadow: 0 1px 5px #143a444d;
+  white-space: nowrap;
+  font: 650 12px/1.45 system-ui, sans-serif;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.atlas-pin[aria-current]::before,
+.atlas-pin[aria-current] span {
+  background: #f8d68b;
+  color: #233d38;
+}
+
+#atlas-map[data-show-labels] .atlas-pin span,
+.atlas-pin[aria-current] span,
+.atlas-pin:hover span,
+.atlas-pin:focus-visible span {
+  opacity: 1;
+  pointer-events: auto;
+}

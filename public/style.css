@@ -81,82 +81,10 @@ summary:focus-visible {
 .skip:focus {
   top: 5px;
 }
-.site-header {
-  background: #fffefa;
-  border-bottom: 1px solid var(--line);
-}
-.header-inner,
 .site-footer,
 main {
   width: min(1280px, 90%);
   margin: auto;
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 35px;
-  min-height: 82px;
-}
-.brand,
-.brand > span {
-  display: flex;
-}
-.brand {
-  align-items: center;
-  gap: 13px;
-  white-space: nowrap;
-}
-.brand > span {
-  flex-direction: column;
-  line-height: 1.15;
-}
-.brand b {
-  font-family: var(--serif);
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: 3px;
-}
-.brand small {
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 1.45px;
-  margin-top: 5px;
-  color: #475d52;
-}
-#nav {
-  height: 82px;
-  display: flex;
-  align-items: stretch;
-  gap: 35px;
-}
-.nav-link {
-  display: flex;
-  align-items: center;
-  color: #54625b;
-  position: relative;
-  font-weight: 500;
-  font-size: 15px;
-  white-space: nowrap;
-}
-.nav-link.active {
-  font-weight: 700;
-  color: var(--green);
-}
-.nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: 14px;
-  height: 2px;
-  background: var(--green);
-  border-radius: 3px;
-  left: 3px;
-  right: 3px;
-}
-.head-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
 }
 .account-link,
 .circle-btn {
@@ -869,12 +797,6 @@ dialog h2 {
   }
 }
 @media (max-width: 900px) {
-  .header-inner {
-    gap: 18px;
-  }
-  #nav {
-    gap: 20px;
-  }
   .card-grid {
     gap: 12px;
   }
@@ -884,66 +806,15 @@ dialog h2 {
   .hero {
     min-height: 323px;
   }
-  .head-actions {
-    gap: 9px;
-  }
   .compose-layout,
   .read-layout {
     grid-template-columns: minmax(0, 1.7fr) minmax(185px, 0.85fr);
   }
 }
 @media (max-width: 720px) {
-  .header-inner,
   main,
   .site-footer {
     width: 92%;
-  }
-  .header-inner {
-    flex-wrap: wrap;
-    min-height: 0;
-    row-gap: 0;
-    justify-content: space-between;
-    padding-top: 11px;
-  }
-  .brand {
-    gap: 8px;
-  }
-  .brand img {
-    width: 34px;
-    height: 34px;
-  }
-  .brand b {
-    font-size: 20px;
-    letter-spacing: 1px;
-  }
-  .brand small {
-    font-size: 8px;
-    letter-spacing: 1px;
-    margin-top: 3px;
-  }
-  .head-actions {
-    order: 1;
-  }
-  .head-actions .btn {
-    min-height: 32px;
-    padding: 6px 10px;
-  }
-  .account-link {
-    width: 33px;
-    height: 33px;
-  }
-  #nav {
-    order: 2;
-    width: 100%;
-    height: 46px;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .nav-link {
-    font-size: 14px;
-  }
-  .nav-link.active::after {
-    bottom: 3px;
   }
   .hero-inner {
     padding: 27px 5%;
@@ -1006,7 +877,6 @@ dialog h2 {
     grid-template-columns: 1fr;
   }
   .editor-tools {
-    order: -1;
     padding: 15px;
   }
   .editor-tools > img {

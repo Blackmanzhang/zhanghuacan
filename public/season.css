@@ -1,10 +1,4 @@
 /* The Mid-Autumn print and its adjacent reading, studio and review tools. */
-.header-inner {
-  gap: 24px;
-}
-#nav {
-  gap: clamp(15px, 2.3vw, 33px);
-}
 .festival-hero {
   display: grid;
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.24fr);
@@ -143,7 +137,10 @@
 }
 .pickup-sea {
   border-radius: 12px;
-  min-height: 320px;
+  --pickup-columns: 1;
+  --pickup-row: 88px;
+  --pickup-gap: 12px;
+  --pickup-inset: 15px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -162,9 +159,32 @@
 }
 .pickup-bottles {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px 22px;
-  padding: 30px 4.5%;
+  grid-template-columns: repeat(var(--pickup-columns), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--pickup-visible-rows, 1), var(--pickup-row));
+  grid-auto-rows: var(--pickup-row);
+  gap: var(--pickup-gap) clamp(10px, 1.5vw, 22px);
+  padding: var(--pickup-inset) clamp(12px, 3.5%, 64px);
+}
+.pickup-bottles[inert] {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+@container site-content (min-width: 355px) {
+  .pickup-sea {
+    --pickup-columns: 2;
+  }
+}
+@container site-content (min-width: 630px) {
+  .pickup-sea {
+    --pickup-columns: 3;
+    --pickup-row: 94px;
+    --pickup-gap: 15px;
+    --pickup-inset: 23px;
+  }
+  .sea-letter:nth-child(3n + 2) {
+    translate: 0 5px;
+  }
 }
 .sea-letter {
   display: flex;
@@ -179,19 +199,25 @@
   color: #244c3d;
   box-shadow: 2px 4px 0 #52756424;
 }
-.sea-letter:nth-child(3n + 2) {
-  margin-top: 28px;
+.sea-letter > span:last-child {
+  min-width: 0;
 }
-.sea-letter small,
-.sea-letter b {
+.sea-letter small {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sea-letter small {
   font-size: 12px;
   color: #6e7562;
 }
 .sea-letter b {
-  font: 700 17px/1.5 var(--serif);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font: 700 17px/1.35 var(--serif);
   overflow-wrap: anywhere;
 }
 .sea-letter:hover .bottle-shape {
@@ -378,29 +404,14 @@
     monospace;
 }
 @media (max-width: 1000px) {
-  #nav {
-    gap: 15px;
-  }
-  .header-inner {
-    gap: 13px;
-  }
   .festival-intro {
     padding: 25px;
   }
   .festival-print {
     min-height: 300px;
   }
-  .pickup-bottles {
-    gap: 13px;
-  }
   .sea-letter {
     padding: 6px;
-  }
-  .brand {
-    gap: 8px;
-  }
-  .head-actions {
-    gap: 8px;
   }
 }
 @media (max-width: 760px) {
@@ -423,13 +434,6 @@
   .festival-print {
     min-height: 265px;
   }
-  .pickup-bottles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 18px;
-  }
-  .sea-letter:nth-child(n) {
-    margin: 0;
-  }
   .footer-actions {
     gap: 9px;
   }
@@ -440,17 +444,6 @@
   }
 }
 @media (max-width: 720px) {
-  #nav {
-    gap: 12px;
-    overflow: auto;
-    scrollbar-width: none;
-  }
-  .nav-link {
-    flex-shrink: 0;
-  }
-  #nav::-webkit-scrollbar {
-    display: none;
-  }
   .festival-bar {
     padding: 8px 11px;
   }
@@ -504,10 +497,6 @@
   .browse-actions {
     gap: 10px;
   }
-  .pickup-bottles {
-    padding: 13px;
-    gap: 10px;
-  }
   .sea-letter {
     gap: 3px;
   }
@@ -516,9 +505,6 @@
   }
   .bottle-shape svg {
     width: 24px;
-  }
-  .pickup-sea {
-    min-height: 0;
   }
   .festival-invite {
     gap: 10px;
@@ -538,13 +524,5 @@
   }
   .footer-actions {
     margin-left: auto;
-  }
-}
-@media (max-width: 550px) {
-  #nav {
-    gap: 8px;
-  }
-  .nav-link {
-    font-size: 13px;
   }
 }

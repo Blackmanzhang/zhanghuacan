@@ -583,6 +583,26 @@
   }
 }
 
+.sm-word-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: 4px;
+  color: #c8ddd5;
+  font-size: 13px;
+}
+.sm-word-picker select {
+  color: #183a39;
+  background: #f4f6ee;
+  border: 1px solid #abc3b6;
+  border-radius: 6px;
+  padding: 5px 7px;
+}
+.sm-more {
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+}
 .sm-archive-search {
   display: flex;
   align-items: center;

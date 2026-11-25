@@ -1,0 +1,102 @@
+#compose.compose-layout {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1360px;
+  margin-inline: auto;
+}
+.compose-stationery-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr);
+  gap: clamp(16px, 3vw, 40px);
+}
+.compose-stationery h2 {
+  margin-bottom: 13px;
+}
+.compose-stationery .cover-feedback:not(:empty) {
+  display: block;
+}
+.compose-stationery-grid .paper-specimen {
+  min-height: 112px;
+  margin-top: 0;
+}
+#dialog:has(.paper-preview) {
+  width: min(960px, calc(100vw - 26px));
+  padding: clamp(14px, 2.4vw, 30px);
+}
+.compose-delivery > h2 {
+  margin: 0;
+}
+.compose-delivery .compose-upload-help {
+  margin-top: -10px;
+}
+.compose-upload-help,
+.compose-byline {
+  font-size: 13px;
+}
+.compose-writing {
+  min-width: 0;
+}
+.compose-writing-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.compose-writing-head label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.compose-generate {
+  background: #dfede6;
+  color: #17494b;
+  border-color: #a6c4b7;
+}
+.compose-generate:hover:enabled {
+  background: #d3e9dc;
+}
+.compose-generate:disabled:not([aria-busy="true"]) {
+  cursor: default;
+}
+#compose-ai-help,
+.compose-ai-status,
+.compose-ai-preview [data-ai-overwrite] {
+  color: #4e6861;
+  font-size: 13px;
+  margin: 6px 0 9px;
+}
+.compose-writing textarea {
+  width: 100%;
+  min-height: 240px;
+  resize: vertical;
+  line-height: 1.8;
+}
+.compose-ai-status:empty {
+  display: none;
+}
+.compose-ai-preview {
+  margin-top: 10px;
+  padding: clamp(14px, 2vw, 22px);
+  border: 1px solid #b4c9bc;
+  border-left: 3px solid #a87c42;
+  border-radius: 8px;
+  background: #edf3e9;
+}
+.compose-ai-preview h3 {
+  font: 700 20px/1.4 var(--serif);
+}
+.compose-ai-copy {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 9px 0 14px;
+}
+.compose-ai-preview [data-ai-overwrite] {
+  color: #754926;
+}
+.compose-ai-preview .row-actions {
+  justify-content: flex-end;
+}
+@media (max-width: 600px) {
+  .compose-stationery-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

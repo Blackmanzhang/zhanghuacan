@@ -14,23 +14,30 @@
     <link rel="stylesheet" href="/stories.css" />
     <link rel="stylesheet" href="/season.css" />
     <link rel="stylesheet" href="/culture.css" />
-    <link rel="stylesheet" href="/workshop.css" />
+    <link rel="stylesheet" href="/sea-notebooks.css" />
     <link rel="stylesheet" href="/planet.css" />
     <link rel="stylesheet" href="/sounds.css" />
     <link rel="stylesheet" href="/knowledge.css" />
     <link rel="stylesheet" href="/archive.css" />
     <link rel="stylesheet" href="/stationery.css" />
+    <link rel="stylesheet" href="/compose.css" />
+    <link rel="stylesheet" href="/navigation.css" />
     <script defer src="/earth-grid.js"></script>
     <script defer src="/planet.js"></script>
+    <script defer src="/site-water.js"></script>
     <script defer src="/app.js"></script>
     <script defer src="/stationery.js"></script>
+    <script defer src="/compose-ai.js"></script>
     <script defer src="/stories.js"></script>
     <script defer src="/season.js"></script>
     <script defer src="/culture.js"></script>
+    <script defer src="/sound-collection.js"></script>
     <script defer src="/sounds.js"></script>
+    <script defer src="/knowledge-sphere.js"></script>
     <script defer src="/knowledge.js"></script>
-    <script defer src="/studio-canvas.js"></script>
-    <script defer src="/workshop.js"></script>
+    <script defer src="/sea-drawing.js"></script>
+    <script defer src="/sea-drawing-editor.js"></script>
+    <script defer src="/sea-notebooks.js"></script>
     <script defer src="/review.js"></script>
     <script defer src="/language.js"></script>
   </head>
@@ -38,12 +45,21 @@
     <a class="skip" href="#main">跳至正文</a>
     <header class="site-header">
       <div class="header-inner">
-        <a href="#home" class="brand" aria-label="海上有信首页"
-          ><img src="/mark.svg" width="43" height="43" alt="" /><span
-            ><b>海上有信</b><small>LETTERS ACROSS THE SEA</small></span
-          ></a
-        >
-        <nav aria-label="网站导航" id="nav"></nav>
+        <div class="header-brand">
+          <button
+            type="button"
+            class="navigation-toggle"
+            id="navigation-toggle"
+            aria-label="打开导航"
+            aria-controls="mobile-navigation"
+            aria-expanded="false"
+            aria-haspopup="dialog"
+          ></button>
+          <a href="#home" class="brand" aria-label="海上有信首页">
+            <img src="/mark.svg" width="58" height="58" alt="" />
+            <span><b>海上有信</b><small>LETTERS ACROSS THE SEA</small></span>
+          </a>
+        </div>
         <div class="head-actions">
           <a class="btn compact solid" href="#write" id="header-write"></a
           ><a
@@ -56,21 +72,46 @@
         </div>
       </div>
     </header>
-    <main id="main" tabindex="-1">
-      <div class="loading">正在打开海上来信…</div>
-    </main>
-    <footer class="site-footer">
-      <div>
-        <img src="/mark.svg" width="24" alt="" /><strong>海上有信</strong
-        ><span>Letters Across the Sea</span>
+    <div class="site-frame">
+      <canvas id="site-water" aria-hidden="true" hidden></canvas>
+      <aside class="site-sidebar">
+        <div class="navigation-dock" id="navigation-dock">
+          <nav aria-label="网站导航" id="nav" class="primary-navigation"></nav>
+        </div>
+      </aside>
+      <div class="site-content">
+        <main id="main" tabindex="-1">
+          <div class="loading">正在打开海上来信…</div>
+        </main>
+        <footer class="site-footer">
+          <div>
+            <img src="/mark.svg" width="24" alt="" /><strong>海上有信</strong
+            ><span>Letters Across the Sea</span>
+          </div>
+          <nav class="footer-actions" aria-label="网站工具">
+            <a href="#tree">故事树</a><a href="#gallery">数字展厅</a
+            ><a href="#network">交流网络</a
+            ><a href="#admin">内容审核</a
+            ><button type="button" class="plain" data-language>繁體中文</button>
+          </nav>
+        </footer>
       </div>
-      <nav class="footer-actions" aria-label="网站工具">
-        <a href="#tree">故事树</a><a href="#gallery">数字展厅</a
-        ><a href="#festival">中秋主题展</a><a href="#network">交流网络</a
-        ><a href="#admin">内容审核</a
-        ><button type="button" class="plain" data-language>繁體中文</button>
-      </nav>
-    </footer>
+    </div>
+    <dialog
+      id="mobile-navigation"
+      class="navigation-drawer"
+      aria-labelledby="navigation-title"
+    >
+      <div class="navigation-drawer-head">
+        <img src="/mark.svg" width="32" height="32" alt="" />
+        <h2 id="navigation-title">网站导航</h2>
+        <button
+          type="button"
+          class="navigation-close"
+          aria-label="关闭导航"
+        ></button>
+      </div>
+    </dialog>
     <dialog id="dialog"><div id="dialog-content"></div></dialog>
     <div id="toast" role="status" aria-live="polite"></div>
   </body>

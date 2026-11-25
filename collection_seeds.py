@@ -181,9 +181,9 @@ SCROLLS = {
 EDITION_START = datetime(2025, 10, 7, 1, 20, tzinfo=timezone.utc)
 
 
-def _contributors(db):
+def _contributors(db, people):
     ids = set()
-    for key, (name, region) in PEOPLE.items():
+    for key, (name, region) in people.items():
         # A local account may already have this pen name. Never attach our text
         # to that account or rename it.
         candidate = name
@@ -199,24 +199,35 @@ def _contributors(db):
 
 
 def install(db):
-    """Install this edition once, inside server.setup's existing transaction."""
+    """Install each sample edition inside server.setup's existing transaction."""
+    from collection_additions import EDITION as NEW_EDITION, LETTERS as NEW_LETTERS
+    from collection_additions import PEOPLE as NEW_PEOPLE, SCROLLS as NEW_SCROLLS, START
+
     db.execute("CREATE TABLE IF NOT EXISTS sample_editions (id TEXT PRIMARY KEY)")
+    _install_edition(db, EDITION, PEOPLE, LETTERS, SCROLLS, EDITION_START,
+                     ("he", "lu", "xu", "zhou"))
+    _install_edition(db, NEW_EDITION, NEW_PEOPLE, NEW_LETTERS, NEW_SCROLLS, START)
+
+
+def _install_edition(db, edition, people, letters, scrolls, start, returning=()):
     entered = db.execute("INSERT INTO sample_editions(id) VALUES(?) ON CONFLICT(id) DO NOTHING",
-                         (EDITION,))
+                         (edition,))
     if not entered.rowcount:
         return
 
-    authors = _contributors(db)
+    authors = _contributors(db, people)
     # Four correspondents are returning project characters. Verify their demo
     # flag before assigning new letters on installations with earlier data.
-    authors.update(row["id"] for row in db.execute(
-        "SELECT id FROM users WHERE demo=1 AND id IN ('he','lu','xu','zhou')"))
+    if returning:
+        marks = ",".join("?" for _ in returning)
+        authors.update(row["id"] for row in db.execute(
+            f"SELECT id FROM users WHERE demo=1 AND id IN ({marks})", returning))
     regions = dict(db.execute("SELECT id,region FROM users WHERE demo=1"))
     inserted_keys = set()
-    for order, letter in enumerate(LETTERS):
+    for order, letter in enumerate(letters):
         if letter.author not in authors or (letter.parent and letter.parent not in inserted_keys):
             continue
-        created = (EDITION_START + timedelta(days=order)).isoformat(timespec="seconds")
+        created = (start + timedelta(days=order)).isoformat(timespec="seconds")
         result = db.execute("""INSERT INTO letters(
             id, parent_id, author, title, body, region, theme, art, created,
             is_open, exhibit, status, drift, tags, paper, stamp, quote_text)
@@ -229,7 +240,7 @@ def install(db):
         if result.rowcount:
             inserted_keys.add(letter.key)
 
-    for panel, revisions in SCROLLS.items():
+    for panel, revisions in scrolls.items():
         # Optional exemplars only occupy entirely untouched, unclaimed panels.
         free = db.execute("""SELECT 1 FROM scroll_panels AS p WHERE p.id=? AND p.claimed_by IS NULL
             AND NOT EXISTS (SELECT 1 FROM scroll_versions WHERE panel_id=p.id)""", (panel,)).fetchone()
